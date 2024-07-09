@@ -33,13 +33,13 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User update (User obj){
+    public User update(User obj){
         Optional<User> newObj = userRepository.findById(obj.getId());
         User user = newObj.get();
         updateUser(user, obj);
         return userRepository.save(user);
     }
-    
+
     public void updateUser(User user, User obj){
         user.setName(obj.getName());
     }

@@ -33,8 +33,8 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User update(User obj){
-        Optional<User> newObj = userRepository.findById(obj.getId());
+    public User update(Integer id, User obj){
+        Optional<User> newObj = userRepository.findById(id);
         User user = newObj.get();
         updateUser(user, obj);
         return userRepository.save(user);

@@ -25,7 +25,14 @@ public class ReviewService {
             throw new ResourceNotFoundException(id);
         }
     }
-    
+    public Review insert(Review obj){
+        return repository.save(obj);
+    }
+    public void delete(Integer id){
+        findById(id);
+        repository.deleteById(id);
+    }
+
     public Review editReview(Integer id, Review obj){
         Review review = findById(id);
         reviewUpdate(review, obj);

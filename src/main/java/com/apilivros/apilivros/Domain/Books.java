@@ -74,19 +74,30 @@ public class Books implements Serializable {
         this.author = author;
     }
 
-    public Double getRating() {
-        return rating;
-    }
-
-    public void setRating(Double rating) {
-        this.rating = rating;
-    }
     public List<Review> getReviews() {
         return reviews;
     }
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public Double getRating() {
+        return gerarMedia();
+    }
+    
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+
+
+    public Double gerarMedia(){
+        rating = 0.0;
+        for (Review x : reviews ) {
+            rating += x.getScore();
+        }
+        rating = rating/reviews.toArray().length;
+        return rating;
     }
     
 

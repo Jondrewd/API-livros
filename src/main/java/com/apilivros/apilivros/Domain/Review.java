@@ -19,7 +19,7 @@ public class Review implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String comment;
-    private Integer score;
+    private Double score;
 
     @ManyToOne
     @JoinColumn(name = "book_id")
@@ -31,7 +31,7 @@ public class Review implements Serializable {
 
     public Review(){}
 
-    public Review(Integer id, User user, String comment, Integer score, Books book) {
+    public Review(Integer id, User user, String comment, Double score, Books book) {
         this.id = id;
         this.user = user;
         this.comment = comment;
@@ -55,11 +55,11 @@ public class Review implements Serializable {
         this.comment = comment;
     }
 
-    public Integer getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 

@@ -26,7 +26,6 @@ public class Books implements Serializable {
     private String author;
     private Double rating;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "book")
     private List<Review> reviews = new ArrayList<>();
 

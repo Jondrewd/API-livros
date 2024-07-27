@@ -2,6 +2,9 @@ package com.apilivros.apilivros.Domain;
 
 import java.io.Serializable;
 
+import com.apilivros.apilivros.Domain.exceptions.CommonException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,6 +24,7 @@ public class Review implements Serializable {
     private String comment;
     private Double score;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Books book;
@@ -60,7 +64,11 @@ public class Review implements Serializable {
     }
 
     public void setScore(Double score) {
+        if (score > 10) {
+            throw new CommonException("Error: Digite uma pontuacao entre 0.0 e 10.0.");
+        }else{
         this.score = score;
+        }
     }
 
     public Books getBook() {

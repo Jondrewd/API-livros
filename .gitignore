@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+pom.xml
+src/main/java/com/apilivros/apilivros/Test.java
+pom.xml

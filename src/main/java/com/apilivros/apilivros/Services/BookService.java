@@ -28,5 +28,11 @@ public class BookService {
             throw new ResourceNotFoundException(id);
         }
     }
-
+    public Books insertBook(Books obj){
+        return bookRepository.save(obj);
+    }
+    public void deleteBook(Integer id){
+        findById(id);
+        bookRepository.deleteById(id);
+    }
 }

@@ -3,12 +3,12 @@ package com.apilivros.apilivros.Domain;
 import java.io.Serializable;
 
 import com.apilivros.apilivros.Domain.exceptions.CommonException;
+import com.apilivros.apilivros.Domain.pk.ReviewID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -18,28 +18,36 @@ import jakarta.persistence.Table;
 public class Review implements Serializable {
     private static final long serialVersionUID =1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    
+    @EmbeddedId
+    private ReviewID id;
+    
     private String comment;
     private Double score;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "book_id", insertable=false, updatable=false)
     private Books book;
 
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", insertable=false, updatable=false)
     private User user;
 
-    public Review(){}
+    public Review(){
+        
+    }
 
-    public Review(Integer id, User user, String comment, Double score, Books book) {
-        this.id = id;
+    public Review(ReviewID id, User user, String comment, Double score, Books book) {
+        this.id = new ReviewID(book.getId(), user.getId());
         this.user = user;
         this.comment = comment;
-        this.score = score;
+        if (score > 10) {
+            throw new CommonException("Error: Digite uma pontuacao entre 0.0 e 10.0.");
+        }else{
+            this.score = score;
+        }
         this.book = book;
     }
 
@@ -79,12 +87,12 @@ public class Review implements Serializable {
         this.book = book;
     }
 
-    public Integer getId() {
+    public ReviewID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Books book, User user) {
+        this.id = new ReviewID(book.getId(), user.getId());;
     }
 
     @Override

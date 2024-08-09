@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.apilivros.apilivros.Domain.Review;
+import com.apilivros.apilivros.Domain.pk.ReviewID;
 import com.apilivros.apilivros.Services.ReviewService;
 
 @RestController
@@ -23,9 +24,9 @@ public class ReviewRestController {
     @Autowired
     private ReviewService reviewService;
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<Review> findById(@PathVariable Integer id){
-        Review review = reviewService.findById(id);
+    @GetMapping(value = "/{book_id}/{user_id}")
+    public ResponseEntity<Review> findById(@PathVariable Integer book_id, @PathVariable Integer user_id){
+        Review review = reviewService.findById(book_id, user_id);
         return ResponseEntity.ok().body(review);
     }
     @PostMapping
@@ -34,14 +35,14 @@ public class ReviewRestController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
     }
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
-        reviewService.delete(id);
+    @DeleteMapping(value = "/{book_id}/{user_id}")
+    public ResponseEntity<Void> delete(@PathVariable Integer book_id, @PathVariable Integer user_id){
+        reviewService.delete(book_id, user_id);
         return ResponseEntity.noContent().build();
     } 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<Review> update(@PathVariable Integer id, @RequestBody Review obj){
-        obj = reviewService.editReview(id, obj);
+    @PutMapping(value = "/{book_id}/{user_id}")
+    public ResponseEntity<Review> update(@PathVariable Integer book_id, @PathVariable Integer user_id, @RequestBody Review obj){
+        obj = reviewService.editReview(book_id, user_id, obj);
         return ResponseEntity.ok().body(obj);
     }
     

@@ -34,7 +34,7 @@ public class BooksRestController {
         Books book = service.findById(id);
         return ResponseEntity.ok().body(book);
     }
-    @PostMapping("path")
+    @PostMapping
     public ResponseEntity<Books> insertBook(@RequestBody Books obj) {
         obj = service.insertBook(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();

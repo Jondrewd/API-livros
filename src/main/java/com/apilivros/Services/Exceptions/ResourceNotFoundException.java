@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Services.Exceptions;
+package com.apilivros.Services.Exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     private static final long serialVersionUID =1L;

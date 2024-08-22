@@ -1,9 +1,9 @@
-package com.apilivros.apilivros.Domain;
+package com.apilivros.Domain;
 
 import java.io.Serializable;
 
-import com.apilivros.apilivros.Domain.exceptions.CommonException;
-import com.apilivros.apilivros.Domain.pk.ReviewID;
+import com.apilivros.Domain.exceptions.CommonException;
+import com.apilivros.Domain.pk.ReviewID;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;

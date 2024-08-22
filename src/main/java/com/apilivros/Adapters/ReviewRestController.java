@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Adapters;
+package com.apilivros.Adapters;
 
 import java.net.URI;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.apilivros.apilivros.Domain.Review;
-import com.apilivros.apilivros.Domain.pk.ReviewID;
-import com.apilivros.apilivros.Services.ReviewService;
+import com.apilivros.Domain.Review;
+import com.apilivros.Services.ReviewService;
 
 @RestController
 @RequestMapping("/reviews")

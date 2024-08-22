@@ -1,7 +1,7 @@
 package com.apilivros.Dto;
 
 
-import com.apilivros.apilivros.Domain.Review;
+import com.apilivros.Domain.Review;
 
 import jakarta.persistence.Id;
 
@@ -15,7 +15,7 @@ public class ReviewDTO {
     public ReviewDTO(Review review) {
         comment = review.getComment();
         score = review.getScore();
-        user = review.getUser().getName();
+        user = review.getUser().getUsername();
     }
 
     public Integer getId() {

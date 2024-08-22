@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Services;
+package com.apilivros.Services;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
-import com.apilivros.apilivros.Domain.Books;
-import com.apilivros.apilivros.Repository.BooksRepository;
-import com.apilivros.apilivros.Services.Exceptions.ResourceNotFoundException;
+import com.apilivros.Domain.Books;
+import com.apilivros.Repository.BooksRepository;
+import com.apilivros.Services.Exceptions.ResourceNotFoundException;
 
 @Component
 public class BookService {

@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Adapters;
+package com.apilivros.Adapters;
 
 import java.net.URI;
 import java.util.List;
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.apilivros.apilivros.Domain.User;
-import com.apilivros.apilivros.Services.UserService;
+import com.apilivros.Domain.User;
+import com.apilivros.Services.UserService;
 
 @RestController
 @RequestMapping("/users")

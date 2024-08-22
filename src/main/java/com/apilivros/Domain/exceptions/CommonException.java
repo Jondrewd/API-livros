@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Domain.exceptions;
+package com.apilivros.Domain.exceptions;
 
 public class CommonException extends RuntimeException {
     private static final long serialVersionUID =1L;

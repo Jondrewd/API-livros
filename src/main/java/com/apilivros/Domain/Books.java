@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Domain;
+package com.apilivros.Domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;

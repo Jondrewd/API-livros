@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Adapters;
+package com.apilivros.Adapters;
 
 import java.net.URI;
 import java.util.List;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.apilivros.apilivros.Domain.Books;
-import com.apilivros.apilivros.Services.BookService;
+import com.apilivros.Domain.Books;
+import com.apilivros.Services.BookService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

@@ -1,12 +1,12 @@
-package com.apilivros.apilivros.Repository;
+package com.apilivros.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.apilivros.apilivros.Domain.Review;
-import com.apilivros.apilivros.Domain.pk.ReviewID;
+import com.apilivros.Domain.Review;
+import com.apilivros.Domain.pk.ReviewID;
 
 import jakarta.transaction.Transactional;
 

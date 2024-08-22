@@ -1,15 +1,12 @@
-package com.apilivros.apilivros.Services;
-
-import java.util.Optional;
+package com.apilivros.Services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
-import com.apilivros.apilivros.Domain.Review;
-import com.apilivros.apilivros.Domain.pk.ReviewID;
-import com.apilivros.apilivros.Repository.ReviewRepository;
-import com.apilivros.apilivros.Services.Exceptions.ResourceNotFoundException;
+import com.apilivros.Domain.Review;
+import com.apilivros.Repository.ReviewRepository;
+import com.apilivros.Services.Exceptions.ResourceNotFoundException;
 
 @Component
 public class ReviewService {

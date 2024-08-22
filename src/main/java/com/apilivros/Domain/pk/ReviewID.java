@@ -1,4 +1,4 @@
-package com.apilivros.apilivros.Domain.pk;
+package com.apilivros.Domain.pk;
 
 
 import jakarta.persistence.Column;

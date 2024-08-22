@@ -1,6 +1,6 @@
 package com.apilivros.Dto;
 
-import com.apilivros.apilivros.Domain.Books;
+import com.apilivros.Domain.Books;
 import jakarta.persistence.Id;
 
 public class BookDTO {

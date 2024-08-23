@@ -31,7 +31,6 @@ public class AuthService {
             String username = data.getUsername();
             String password = data.getPassword();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            System.out.println("to aqui");
             var user = repository.findByUsername(username);
 
             var tokenResponse = new TokenDTO();
@@ -44,5 +43,17 @@ public class AuthService {
         } catch (Exception e) {
             throw new BadCredentialsException("Username/password invalidos.");
         }
+    }
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity refreshToken(String username, String refreshToken){
+            var user = repository.findByUsername(username);
+
+            var tokenResponse = new TokenDTO();
+            if (user != null) {
+                tokenResponse = tokenProvider.refreshToken(refreshToken);
+            }else{
+                throw new UsernameNotFoundException("Username não encontrado.");
+            }
+            return ResponseEntity.ok(tokenResponse);
     }
 }

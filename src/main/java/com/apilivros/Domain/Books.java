@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.apilivros.Domain.enums.Genre;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +22,7 @@ public class Books implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
-    private String gender;
+    private Integer genre;
     private String author;
     private Double rating;
 
@@ -31,10 +33,10 @@ public class Books implements Serializable {
     public Books() {
     }
 
-    public Books(Integer id, String title, String gender, String author, Double rating) {
+    public Books(Integer id, String title, Genre genre, String author, Double rating) {
         this.id = id;
         this.title = title;
-        this.gender = gender;
+        setGenre(genre);
         this.author = author;
         this.rating = rating;
     }
@@ -55,12 +57,14 @@ public class Books implements Serializable {
         this.title = title;
     }
 
-    public String getGender() {
-        return gender;
+    public Genre getGenre() {
+        return Genre.valueOf(genre);
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGenre(Genre genre) {
+        if (genre != null){
+            this.genre = genre.getCode();
+        }
     }
 
     public String getAuthor() {

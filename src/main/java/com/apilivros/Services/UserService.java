@@ -52,8 +52,11 @@ public class UserService implements UserDetailsService{
     public void updateUser(User user, User obj){
         user.setUsername(obj.getUsername());
     }
-
     
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userRepository.findByUsername(username);

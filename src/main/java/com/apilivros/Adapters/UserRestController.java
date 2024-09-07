@@ -46,6 +46,11 @@ public class UserRestController {
         User user = service.findById(id);
         return ResponseEntity.ok().body(user);
     }
+    @GetMapping(value = "/username={username}")
+    public ResponseEntity<User> findByUsername(@PathVariable String username){
+        User user = service.findByUsername(username);
+        return ResponseEntity.ok().body(user);
+    }
 
     @PostMapping
     public ResponseEntity<User> insert(@RequestBody User obj){
@@ -53,11 +58,13 @@ public class UserRestController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
     }
+
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
     @PutMapping(value = "/{id}")
     public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody User obj){
         obj = service.update(id, obj);

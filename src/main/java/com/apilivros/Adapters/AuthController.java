@@ -26,6 +26,14 @@ public class AuthController {
     AuthService authService;
 
     @SuppressWarnings("rawtypes")
+    @PostMapping("/register")
+    public ResponseEntity register(@RequestBody AccountCredentialsDTO data){
+        if (checkParamIsNotNull(data)) 
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request.");
+        authService.register(data);
+        return ResponseEntity.ok().body(data);
+    }
+    @SuppressWarnings("rawtypes")
     @Operation(summary = "Authenticates a user and returns a token.")
     @PostMapping(value = "/signin")
     public ResponseEntity signin(@RequestBody AccountCredentialsDTO data){
@@ -58,4 +66,5 @@ public class AuthController {
         return data == null || data.getUsername() == null || data.getUsername().isBlank() ||
         data.getPassword() == null || data.getPassword().isBlank();
     }
+   
 }

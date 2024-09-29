@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @RequestMapping("/books")
 public class BooksRestController {
+    
     @Autowired
     private BookService service;
 
@@ -37,6 +38,29 @@ public class BooksRestController {
             var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
             return ResponseEntity.ok(service.findAll(pageable));
+    }
+    @GetMapping(value = "/title={title}")
+    public ResponseEntity<Page<Books>> findByTitle(
+        @PathVariable(value = "title") String title,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "size", defaultValue = "12") Integer size,
+        @RequestParam(value = "direction", defaultValue = "asc") String direction){
+           
+            var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
+            return ResponseEntity.ok(service.findByTitle(title, pageable));
+    }
+
+    @GetMapping(value = "/rating={rating}")
+    public ResponseEntity<Page<Books>> findByRating(
+        @PathVariable(value = "rating") Integer rating,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "size", defaultValue = "12") Integer size,
+        @RequestParam(value = "direction", defaultValue = "asc") String direction){
+           
+            var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
+            return ResponseEntity.ok(service.findByRating(rating, pageable));
     }
 
     @GetMapping(value = "/{id}")

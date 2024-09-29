@@ -21,6 +21,15 @@ public class BookService {
     public Page<Books> findAll(Pageable pageable){
         return bookRepository.findAll(pageable);    
     }
+
+    public Page<Books> findByTitle(String title, Pageable pageable){
+        return bookRepository.findByTitle(title, pageable);    
+    }
+
+    public Page<Books> findByRating(Integer rating, Pageable pageable){
+        return bookRepository.findByRating(rating, pageable);    
+    }
+
     public Books findById(Integer id){
         try{
         Optional<Books> obj = bookRepository.findById(id);

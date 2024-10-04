@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.apilivros.Domain.Review;
+import com.apilivros.Dto.ReviewDTO;
 import com.apilivros.Services.ReviewService;
 
 @RestController
@@ -24,9 +25,9 @@ public class ReviewRestController {
     private ReviewService reviewService;
 
     @GetMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<Review> findById(@PathVariable Integer book_id, @PathVariable Integer user_id){
-        Review review = reviewService.findById(book_id, user_id);
-        return ResponseEntity.ok().body(review);
+    public ResponseEntity<ReviewDTO> findById(@PathVariable Integer book_id, @PathVariable Integer user_id){
+        ReviewDTO dto = reviewService.findById(book_id, user_id);
+        return ResponseEntity.ok().body(dto);
     }
     @PostMapping
     public ResponseEntity<Review> insert(@RequestBody Review obj){
@@ -40,9 +41,10 @@ public class ReviewRestController {
         return ResponseEntity.noContent().build();
     } 
     @PutMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<Review> update(@PathVariable Integer book_id, @PathVariable Integer user_id, @RequestBody Review obj){
-        obj = reviewService.editReview(book_id, user_id, obj);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity<ReviewDTO> update(@PathVariable Integer book_id, @PathVariable Integer user_id, @RequestBody ReviewDTO objDTO){
+        Review obj = reviewService.fromDTO(objDTO);
+        obj = reviewService.editReview(book_id ,user_id, obj);
+        return ResponseEntity.ok().body(new ReviewDTO(obj));
     }
     
 }

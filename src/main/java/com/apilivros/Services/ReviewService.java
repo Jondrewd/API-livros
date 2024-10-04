@@ -5,6 +5,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 import com.apilivros.Domain.Review;
+import com.apilivros.Dto.ReviewDTO;
 import com.apilivros.Repository.ReviewRepository;
 import com.apilivros.Services.Exceptions.ResourceNotFoundException;
 
@@ -14,11 +15,10 @@ public class ReviewService {
     @Autowired
     private ReviewRepository repository;
 
-    public Review findById(Integer bookId, Integer userId){
+    public ReviewDTO findById(Integer bookId, Integer userId){
         try{
-            Review obj = repository.findByBookAndUser(bookId, userId);
-            return obj;
-
+            Review review = repository.findByBookAndUser(bookId, userId);
+            return convertToDTO(review);
         }catch (EmptyResultDataAccessException e){
             throw new ResourceNotFoundException("Um dos id's nao pode ser encontrado.");
         }
@@ -39,5 +39,16 @@ public class ReviewService {
     public void reviewUpdate(Review review, Review obj){
         review.setComment(obj.getComment());
         review.setScore(obj.getScore());
+    }
+    
+    public Review fromDTO(ReviewDTO dto) {
+        Review review = new Review();
+        review.setId(dto.getBookId(), dto.getUserId());
+        review.setComment(dto.getComment());
+        review.setScore(dto.getScore());
+        return review;
+    }
+    private ReviewDTO convertToDTO(Review review) {
+        return new ReviewDTO(review);
     }
 }

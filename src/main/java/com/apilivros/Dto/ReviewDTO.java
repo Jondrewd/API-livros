@@ -2,29 +2,27 @@ package com.apilivros.Dto;
 
 
 import com.apilivros.Domain.Review;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Id;
 
 public class ReviewDTO {
-    @Id
-    private Integer id;
     private String comment;
     private Double score;
     private String user;
+    private String book;
+    
+    @JsonIgnore
+    private Integer userId;
+    @JsonIgnore
+    private Integer bookId;
 
     public ReviewDTO(Review review) {
         comment = review.getComment();
         score = review.getScore();
         user = review.getUser().getUsername();
+        book = review.getBook().getTitle();
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getComment() {
         return comment;
@@ -48,6 +46,30 @@ public class ReviewDTO {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getBook() {
+        return book;
+    }
+
+    public void setBook(String book) {
+        this.book = book;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Integer bookId) {
+        this.bookId = bookId;
     }
 
     

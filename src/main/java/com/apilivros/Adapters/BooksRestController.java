@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.apilivros.Domain.Books;
+import com.apilivros.Dto.BookDTO;
 import com.apilivros.Services.BookService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +32,7 @@ public class BooksRestController {
     private BookService service;
 
     @GetMapping
-    public ResponseEntity<Page<Books>> findAll(
+    public ResponseEntity<Page<BookDTO>> findAll(
         @RequestParam(value = "page", defaultValue = "0") Integer page,
         @RequestParam(value = "size", defaultValue = "12") Integer size,
         @RequestParam(value = "direction", defaultValue = "asc") String direction){
@@ -40,7 +41,7 @@ public class BooksRestController {
             return ResponseEntity.ok(service.findAll(pageable));
     }
     @GetMapping(value = "/title={title}")
-    public ResponseEntity<Page<Books>> findByTitle(
+    public ResponseEntity<Page<BookDTO>> findByTitle(
         @PathVariable(value = "title") String title,
         @RequestParam(value = "page", defaultValue = "0") Integer page,
         @RequestParam(value = "size", defaultValue = "12") Integer size,
@@ -52,7 +53,7 @@ public class BooksRestController {
     }
 
     @GetMapping(value = "/rating={rating}")
-    public ResponseEntity<Page<Books>> findByRating(
+    public ResponseEntity<Page<BookDTO>> findByRating(
         @PathVariable(value = "rating") Integer rating,
         @RequestParam(value = "page", defaultValue = "0") Integer page,
         @RequestParam(value = "size", defaultValue = "12") Integer size,
@@ -64,15 +65,15 @@ public class BooksRestController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<Books> findById(@PathVariable Integer id){
-        Books book = service.findById(id);
+    public ResponseEntity<BookDTO> findById(@PathVariable Integer id){
+        BookDTO book = service.findById(id);
         return ResponseEntity.ok().body(book);
     }
     @PostMapping
-    public ResponseEntity<Books> insertBook(@RequestBody Books obj) {
-        obj = service.insertBook(obj);
+    public ResponseEntity<BookDTO> insertBook(@RequestBody BookDTO objdDto) {
+        Books obj = service.insertBook(objdDto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(obj);
+        return ResponseEntity.created(uri).body(objdDto);
     }
 
     @DeleteMapping
@@ -80,6 +81,4 @@ public class BooksRestController {
         service.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
-    
-
 }

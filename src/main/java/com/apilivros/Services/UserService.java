@@ -1,6 +1,7 @@
 package com.apilivros.Services;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.apilivros.Domain.User;
 import com.apilivros.Dto.UserDTO;
+import com.apilivros.Dto.Mappers.ReviewMapper;
 import com.apilivros.Repository.UserRepository;
 import com.apilivros.Services.Exceptions.ResourceNotFoundException;
 
@@ -71,9 +73,13 @@ public class UserService implements UserDetailsService{
         user.setId(dto.getId()); 
         user.setUsername(dto.getUsername());
         user.setFullName(dto.getFullName());
-        user.setReviews(dto.getReviews()); 
+        user.setReviews(dto.getReviews()
+                            .stream()
+                            .map(ReviewMapper::fromDTO)
+                            .collect(Collectors.toList()));
         return user;
     }
+    
     private UserDTO convertToDTO(User user) {
         return new UserDTO(user);
     }

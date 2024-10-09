@@ -1,23 +1,42 @@
 package com.apilivros.Dto;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.apilivros.Domain.Books;
+import com.apilivros.Domain.Review;
+import com.apilivros.Domain.enums.Genre;
+
 import jakarta.persistence.Id;
 
 public class BookDTO {
     @Id
     private Integer id;
     private String title;
-    private String gender;
+    private Genre genre;
     private String author;
     private Double rating;
 
+    private List<ReviewDTO> reviews = new ArrayList<>();
     
     public BookDTO(Books book) {
-        id = book.getId();
-        title = book.getTitle();
-        gender = book.getGender();
-        author = book.getAuthor();
-        rating = book.getRating();
+        this.id = book.getId();
+        this.title = book.getTitle();
+        this.genre = book.getGenre();
+        this.author = book.getAuthor();
+        this.rating = book.getRating();
+        this.reviews = convertReviewsToDTO(book.getReviews());
+    }
+
+    private List<ReviewDTO> convertReviewsToDTO(List<Review> reviews) {
+        if (reviews == null) {
+            return new ArrayList<>();
+        }
+        return reviews
+                .stream()
+                .map(ReviewDTO::new) 
+                .collect(Collectors.toList());
     }
     public Integer getId() {
         return id;
@@ -31,11 +50,11 @@ public class BookDTO {
     public void setTitle(String title) {
         this.title = title;
     }
-    public String getGender() {
-        return gender;
+    public Genre getGenre() {
+        return genre;
     }
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
     public String getAuthor() {
         return author;
@@ -50,5 +69,12 @@ public class BookDTO {
         this.rating = rating;
     }
 
+    public List<ReviewDTO> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewDTO> reviews) {
+        this.reviews = reviews;
+    }
     
 }

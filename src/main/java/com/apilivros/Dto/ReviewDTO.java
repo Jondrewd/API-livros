@@ -71,7 +71,4 @@ public class ReviewDTO {
     public void setBookId(Integer bookId) {
         this.bookId = bookId;
     }
-
-    
-
 }

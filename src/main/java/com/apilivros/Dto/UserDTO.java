@@ -2,6 +2,7 @@ package com.apilivros.Dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.apilivros.Domain.Review;
 import com.apilivros.Domain.User;
@@ -14,7 +15,7 @@ public class UserDTO {
     private String username;
     private String fullName;
 
-    private List<Review> reviews = new ArrayList<>();;
+    private List<ReviewDTO> reviews = new ArrayList<>();;
 
     public UserDTO(){}
     
@@ -22,10 +23,7 @@ public class UserDTO {
         id = user.getId();
         username = user.getUsername();
         fullName = user.getFullName();
-        this.reviews = new ArrayList<>();
-        for (Review review : user.getReviews()) {
-            this.reviews.add(review);
-        }
+        this.reviews = convertReviewsToDTO(user.getReviews());
     }
 
     public Integer getId() {
@@ -52,12 +50,21 @@ public class UserDTO {
         this.fullName = fullName;
     }
 
-    public List<Review> getReviews() {
+    public List<ReviewDTO> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<Review> reviews) {
+    public void setReviews(List<ReviewDTO> reviews) {
         this.reviews = reviews;
+    }
+    private List<ReviewDTO> convertReviewsToDTO(List<Review> reviews) {
+        if (reviews == null) {
+            return new ArrayList<>();
+        }
+        return reviews
+                .stream()
+                .map(ReviewDTO::new) 
+                .collect(Collectors.toList());
     }
     
 }

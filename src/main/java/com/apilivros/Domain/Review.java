@@ -18,7 +18,6 @@ import jakarta.persistence.Table;
 public class Review implements Serializable {
     private static final long serialVersionUID =1L;
 
-    
     @EmbeddedId
     private ReviewID id;
     
@@ -35,9 +34,7 @@ public class Review implements Serializable {
     @JoinColumn(name = "user_id", insertable=false, updatable=false)
     private User user;
 
-    public Review(){
-        
-    }
+    public Review(){}
 
     public Review(ReviewID id, User user, String comment, Double score, Books book) {
         this.id = new ReviewID(book.getId(), user.getId());
@@ -94,6 +91,9 @@ public class Review implements Serializable {
     public void setId(Books book, User user) {
         this.id = new ReviewID(book.getId(), user.getId());;
     }
+    public void setId(Integer bookId, Integer userId) {
+        this.id = new ReviewID(bookId, userId);;
+    }
 
     @Override
     public int hashCode() {
@@ -118,7 +118,5 @@ public class Review implements Serializable {
         } else if (!id.equals(other.id))
             return false;
         return true;
-    }
-
-    
+    }   
 }

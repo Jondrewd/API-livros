@@ -1,5 +1,9 @@
 package com.apilivros.Services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
@@ -47,6 +51,14 @@ public class ReviewService {
         review.setComment(dto.getComment());
         review.setScore(dto.getScore());
         return review;
+    }
+    public List<Review> fromDTOList(List<ReviewDTO> dtoList) {
+    if (dtoList == null) {
+        return new ArrayList<>();
+    }
+    return dtoList.stream()
+            .map(this::fromDTO) 
+            .collect(Collectors.toList());
     }
     private ReviewDTO convertToDTO(Review review) {
         return new ReviewDTO(review);

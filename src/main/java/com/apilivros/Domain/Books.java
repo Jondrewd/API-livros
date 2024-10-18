@@ -3,13 +3,17 @@ package com.apilivros.Domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.apilivros.Domain.enums.Genre;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -22,21 +26,22 @@ public class Books implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String title;
-    private Integer genre;
+    
     private String author;
     private Double rating;
 
-    @OneToMany(mappedBy = "book")
+    @OneToMany(mappedBy = "book",  cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
-
     
+    @CollectionTable(name = "book_genres", joinColumns = @JoinColumn(name = "book_id"))
+    private List<Integer> genres = new ArrayList<>();
     public Books() {
     }
 
-    public Books(Integer id, String title, Genre genre, String author, Double rating) {
+    public Books(Integer id, String title, List<Integer> genres, String author, Double rating) {
         this.id = id;
         this.title = title;
-        setGenre(genre);
+        this.genres = genres;
         this.author = author;
         this.rating = rating;
     }
@@ -57,13 +62,17 @@ public class Books implements Serializable {
         this.title = title;
     }
 
-    public Genre getGenre() {
-        return Genre.valueOf(genre);
+    public List<Genre> getGenres() {
+        return genres.stream()
+                     .map(Genre::valueOf)
+                     .collect(Collectors.toList());
     }
 
-    public void setGenre(Genre genre) {
-        if (genre != null){
-            this.genre = genre.getCode();
+    public void setGenres(List<Genre> genres) {
+        if (genres != null) {
+            this.genres = genres.stream()
+                                .map(Genre::getCode)
+                                .collect(Collectors.toList());
         }
     }
 
@@ -91,7 +100,6 @@ public class Books implements Serializable {
         this.rating = rating;
     }
 
-
     public Double gerarMedia(){
         rating = 0.0;
         for (Review x : reviews ) {
@@ -100,7 +108,6 @@ public class Books implements Serializable {
         rating = rating/reviews.toArray().length;
         return rating;
     }
-    
 
     @Override
     public int hashCode() {
@@ -126,6 +133,4 @@ public class Books implements Serializable {
             return false;
         return true;
     }
-
-
 }

@@ -40,7 +40,7 @@ public class BooksRestController {
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
             return ResponseEntity.ok(service.findAll(pageable));
     }
-    @GetMapping(value = "/title={title}")
+    @GetMapping(value = "/title/{title}")
     public ResponseEntity<Page<BookDTO>> findByTitle(
         @PathVariable(value = "title") String title,
         @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -52,7 +52,7 @@ public class BooksRestController {
             return ResponseEntity.ok(service.findByTitle(title, pageable));
     }
 
-    @GetMapping(value = "/rating={rating}")
+    @GetMapping(value = "/rating/{rating}")
     public ResponseEntity<Page<BookDTO>> findByRating(
         @PathVariable(value = "rating") Integer rating,
         @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -63,7 +63,7 @@ public class BooksRestController {
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
             return ResponseEntity.ok(service.findByRating(rating, pageable));
     }
-    @GetMapping(value = "/author={author}")
+    @GetMapping(value = "/author/{author}")
     public ResponseEntity<Page<BookDTO>> findByAuthor(
         @PathVariable(value = "author") String author,
         @RequestParam(value = "page", defaultValue = "0") Integer page,

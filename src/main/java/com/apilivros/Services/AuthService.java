@@ -11,11 +11,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.apilivros.Domain.Permission;
+import com.apilivros.Domain.Roles;
 import com.apilivros.Domain.User;
 import com.apilivros.Dto.AccountCredentialsDTO;
 import com.apilivros.Dto.TokenDTO;
-import com.apilivros.Repository.PermissionRepository;
+import com.apilivros.Repository.RolesRepository;
 import com.apilivros.Repository.UserRepository;
 import com.apilivros.config.SecurityConfig;
 import com.apilivros.security.jwt.JwtTokenProvider;
@@ -33,7 +33,7 @@ public class AuthService {
     private UserRepository repository;
     
     @Autowired
-    private PermissionRepository permissionRepository;
+    private RolesRepository roleRepository;
     
     @Autowired
     private SecurityConfig config;
@@ -46,9 +46,9 @@ public class AuthService {
             }else{
             User user = new User();
             user.setUsername(data.getUsername());
-            user.setPassowrd(config.passwordEncoder().encode(data.getPassword()));
-            Permission permissions = permissionRepository.findByName("USER").get();
-            user.setPermission(Collections.singletonList(permissions));
+            user.setPassword(config.passwordEncoder().encode(data.getPassword()));
+            Roles roles = roleRepository.findByName("ROLE_USER").get();
+            user.setRoles(Collections.singletonList(roles));
 
             repository.save(user);
             return new ResponseEntity<>("Usuario registrado", HttpStatus.OK);
@@ -67,7 +67,7 @@ public class AuthService {
 
             var tokenResponse = new TokenDTO();
             if (user != null) {
-                tokenResponse = tokenProvider.createAcessToken(username, user.getRoles());
+                tokenResponse = tokenProvider.createAcessToken(username, user.getRoleNames());
             }else{
                 throw new UsernameNotFoundException("Username não encontrado.");
             }

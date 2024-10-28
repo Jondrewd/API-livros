@@ -14,6 +14,7 @@ public class UserDTO {
     private Integer id;
     private String username;
     private String fullName;
+    private List<String> roles;
 
     private List<ReviewDTO> reviews = new ArrayList<>();;
 
@@ -24,6 +25,7 @@ public class UserDTO {
         username = user.getUsername();
         fullName = user.getFullName();
         this.reviews = convertReviewsToDTO(user.getReviews());
+        roles = user.getRoleNames();
     }
 
     public Integer getId() {
@@ -52,6 +54,14 @@ public class UserDTO {
 
     public List<ReviewDTO> getReviews() {
         return reviews;
+    }
+
+    public List<String> getRoless() {
+        return roles;
+    }
+
+    public void setRoless(List<String> roles) {
+        this.roles = roles;
     }
 
     public void setReviews(List<ReviewDTO> reviews) {

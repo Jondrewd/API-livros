@@ -2,11 +2,10 @@ package com.apilivros.Dto;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.apilivros.Domain.Books;
-import com.apilivros.Domain.Review;
 import com.apilivros.Domain.enums.Genre;
+import com.apilivros.Dto.Mappers.ReviewMapper;
 
 import jakarta.persistence.Id;
 
@@ -14,30 +13,26 @@ public class BookDTO {
     @Id
     private Integer id;
     private String title;
-    private Genre genre;
     private String author;
     private Double rating;
+    private String imageUrl;
+    private String description;
 
+    private List<Genre> genre = new ArrayList<>();
     private List<ReviewDTO> reviews = new ArrayList<>();
     
+    public BookDTO(){}
     public BookDTO(Books book) {
         this.id = book.getId();
         this.title = book.getTitle();
-        this.genre = book.getGenre();
-        this.author = book.getAuthor();
+        this.genre = book.getGenres();
+        this.author = book.getAuthor().getName();
         this.rating = book.getRating();
-        this.reviews = convertReviewsToDTO(book.getReviews());
+        this.imageUrl = book.getImageUrl();
+        this.reviews = ReviewMapper.convertReviewsToDTO(book.getReviews());
+        this.description = book.getDescription();
     }
 
-    private List<ReviewDTO> convertReviewsToDTO(List<Review> reviews) {
-        if (reviews == null) {
-            return new ArrayList<>();
-        }
-        return reviews
-                .stream()
-                .map(ReviewDTO::new) 
-                .collect(Collectors.toList());
-    }
     public Integer getId() {
         return id;
     }
@@ -50,10 +45,10 @@ public class BookDTO {
     public void setTitle(String title) {
         this.title = title;
     }
-    public Genre getGenre() {
+    public List<Genre> getGenre() {
         return genre;
     }
-    public void setGenre(Genre genre) {
+    public void setGenre(List<Genre> genre) {
         this.genre = genre;
     }
     public String getAuthor() {
@@ -68,6 +63,12 @@ public class BookDTO {
     public void setRating(Double rating) {
         this.rating = rating;
     }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public List<ReviewDTO> getReviews() {
         return reviews;
@@ -75,6 +76,12 @@ public class BookDTO {
 
     public void setReviews(List<ReviewDTO> reviews) {
         this.reviews = reviews;
+    }
+    public String getDescription() {
+        return description;
+    }
+    public void setDescription(String description) {
+        this.description = description;
     }
     
 }

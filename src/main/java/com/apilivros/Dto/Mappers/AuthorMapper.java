@@ -23,6 +23,11 @@ public class AuthorMapper {
     return author;
     }
 
+    
+    public static AuthorDTO convertToDTO(Author author) {
+        return new AuthorDTO(author);
+    }
+
     public static Author searchAuthorByName(String authorName){
         return service.findByAuthorname(authorName);
     }

@@ -20,4 +20,7 @@ public class BookMapper {
         book.setAuthor(AuthorMapper.searchAuthorByName(dto.getAuthor()));
         return book;
     }
+    public static BookDTO convertBookToDTO(Books book) {
+        return new BookDTO(book);
+    }
 }

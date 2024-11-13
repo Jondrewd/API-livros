@@ -63,6 +63,7 @@ public class BooksRestController {
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
             return ResponseEntity.ok(service.findByRating(rating, pageable));
     }
+    
     @GetMapping(value = "/author/{author}")
     public ResponseEntity<Page<BookDTO>> findByAuthor(
         @PathVariable(value = "author") String author,

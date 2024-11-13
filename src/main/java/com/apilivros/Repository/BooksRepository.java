@@ -15,5 +15,7 @@ public interface BooksRepository extends JpaRepository<Books, Integer>{
 
     @Query("SELECT b FROM Books b WHERE b.rating >= :rating AND b.rating < :rating + 1")
     Page<Books> findByRating(@Param("rating") Integer rating, Pageable pageable);
-    
+
+    @Query("SELECT b FROM Books b WHERE LOWER(b.author.name) LIKE LOWER(CONCAT('%', :author, '%'))")
+    Page<Books> findByAuthor(@Param("author") String author, Pageable pageable);
 }

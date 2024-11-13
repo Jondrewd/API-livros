@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,8 +28,12 @@ public class Books implements Serializable {
     private Integer id;
     private String title;
     
-    private String author;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    private Author author;
     private Double rating;
+    private String imageUrl;
+    private String description;
 
     @OneToMany(mappedBy = "book",  cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
@@ -38,12 +43,23 @@ public class Books implements Serializable {
     public Books() {
     }
 
-    public Books(Integer id, String title, List<Integer> genres, String author, Double rating) {
+    public Books(Integer id, String title, List<Integer> genres, Author author, Double rating, String imageUrl, String description) {
         this.id = id;
         this.title = title;
         this.genres = genres;
         this.author = author;
         this.rating = rating;
+        this.imageUrl = imageUrl;
+        this.description = description;
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Integer getId() {
@@ -61,6 +77,15 @@ public class Books implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+    
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public List<Genre> getGenres() {
         return genres.stream()
@@ -76,11 +101,11 @@ public class Books implements Serializable {
         }
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 
@@ -100,14 +125,17 @@ public class Books implements Serializable {
         this.rating = rating;
     }
 
-    public Double gerarMedia(){
-        rating = 0.0;
-        for (Review x : reviews ) {
-            rating += x.getScore();
+    public Double gerarMedia() {
+        if (reviews.isEmpty()) {
+            return rating; 
         }
-        rating = rating/reviews.toArray().length;
-        return rating;
+        double totalRating = 0.0;
+        for (Review x : reviews) {
+            totalRating += x.getScore();
+        }
+        return totalRating / reviews.size(); 
     }
+    
 
     @Override
     public int hashCode() {

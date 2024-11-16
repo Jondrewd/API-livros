@@ -1,19 +1,16 @@
 package com.apilivros.Services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.apilivros.Domain.Review;
 import com.apilivros.Dto.ReviewDTO;
+import com.apilivros.Dto.Mappers.ReviewMapper;
 import com.apilivros.Repository.ReviewRepository;
 import com.apilivros.Services.Exceptions.ResourceNotFoundException;
 
-@Component
+@Service
 public class ReviewService {
     
     @Autowired
@@ -22,7 +19,7 @@ public class ReviewService {
     public ReviewDTO findById(Integer bookId, Integer userId){
         try{
             Review review = repository.findByBookAndUser(bookId, userId);
-            return convertToDTO(review);
+            return ReviewMapper.convertToDTO(review);
         }catch (EmptyResultDataAccessException e){
             throw new ResourceNotFoundException("Um dos id's nao pode ser encontrado.");
         }
@@ -46,21 +43,7 @@ public class ReviewService {
     }
     
     public Review fromDTO(ReviewDTO dto) {
-        Review review = new Review();
-        review.setId(dto.getBookId(), dto.getUserId());
-        review.setComment(dto.getComment());
-        review.setScore(dto.getScore());
-        return review;
+        return ReviewMapper.fromDTO(dto);
     }
-    public List<Review> fromDTOList(List<ReviewDTO> dtoList) {
-    if (dtoList == null) {
-        return new ArrayList<>();
-    }
-    return dtoList.stream()
-            .map(this::fromDTO) 
-            .collect(Collectors.toList());
-    }
-    private ReviewDTO convertToDTO(Review review) {
-        return new ReviewDTO(review);
-    }
+ 
 }

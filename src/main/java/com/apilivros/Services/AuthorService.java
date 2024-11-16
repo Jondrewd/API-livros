@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.apilivros.Domain.Author;
 import com.apilivros.Dto.AuthorDTO;
+import com.apilivros.Dto.Mappers.AuthorMapper;
 import com.apilivros.Repository.AuthorRepository;
 import com.apilivros.Services.Exceptions.ResourceNotFoundException;
 
@@ -19,13 +20,13 @@ public class AuthorService {
 
     public Page<AuthorDTO> findAll(Pageable pageable){
         Page<Author> authors = authorRepository.findAll(pageable);
-        return authors.map(this::convertToDTO);
+        return authors.map(AuthorMapper::convertToDTO);
     }
 
     public AuthorDTO findById(Integer id){
         Author author = authorRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado."));
-        return convertToDTO(author);
+        return AuthorMapper.convertToDTO(author);
     }
 
     public Author insert(Author obj) {
@@ -53,9 +54,4 @@ public class AuthorService {
         author.setDescription(obj.getDescription());
         author.setNationality(obj.getNationality());
     }
-
-    private AuthorDTO convertToDTO(Author author) {
-        return new AuthorDTO(author);
-    }
-
 }

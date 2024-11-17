@@ -16,13 +16,13 @@ public class ReviewDTO {
     @JsonIgnore
     private Integer bookId;
 
+    public ReviewDTO(){}
     public ReviewDTO(Review review) {
         comment = review.getComment();
         score = review.getScore();
         user = review.getUser().getUsername();
         book = review.getBook().getTitle();
     }
-
 
     public String getComment() {
         return comment;

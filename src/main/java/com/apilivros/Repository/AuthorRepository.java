@@ -15,6 +15,4 @@ public interface AuthorRepository extends JpaRepository<Author, Integer>{
 
     @Query("SELECT a FROM Author a WHERE a.nationality = :nationality")
     Author findByAuthorname(@Param("nationality") String nationality);
-
-
 }

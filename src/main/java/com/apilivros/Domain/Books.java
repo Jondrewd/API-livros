@@ -31,6 +31,7 @@ public class Books implements Serializable {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
+
     private Double rating;
     private String imageUrl;
     private String description;
@@ -42,7 +43,6 @@ public class Books implements Serializable {
     private List<Integer> genres = new ArrayList<>();
     public Books() {
     }
-
     public Books(Integer id, String title, List<Integer> genres, Author author, Double rating, String imageUrl, String description) {
         this.id = id;
         this.title = title;
@@ -52,7 +52,6 @@ public class Books implements Serializable {
         this.imageUrl = imageUrl;
         this.description = description;
     }
-
 
     public String getImageUrl() {
         return imageUrl;

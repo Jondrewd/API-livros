@@ -26,7 +26,7 @@ public class BookDTO {
         this.id = book.getId();
         this.title = book.getTitle();
         this.genre = book.getGenres();
-        this.author = book.getAuthor().getName();
+        this.author = (book.getAuthor() != null) ? book.getAuthor().getName() : "Author not available";
         this.rating = book.getRating();
         this.imageUrl = book.getImageUrl();
         this.reviews = ReviewMapper.convertReviewsToDTO(book.getReviews());

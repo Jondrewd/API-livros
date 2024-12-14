@@ -63,6 +63,17 @@ public class BooksRestController {
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
             return ResponseEntity.ok(service.findByRating(rating, pageable));
     }
+    @GetMapping(value = "/genre/{genre}")
+    public ResponseEntity<Page<BookDTO>> findByGenre(
+        @PathVariable(value = "genre") Integer genre,
+        @RequestParam(value = "page", defaultValue = "0") Integer page,
+        @RequestParam(value = "size", defaultValue = "12") Integer size,
+        @RequestParam(value = "direction", defaultValue = "asc") String direction){
+           
+            var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
+            Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
+            return ResponseEntity.ok(service.findByGenre(genre, pageable));
+    }
     
     @GetMapping(value = "/author/{author}")
     public ResponseEntity<Page<BookDTO>> findByAuthor(

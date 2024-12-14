@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,6 +29,8 @@ public class Profile implements Serializable {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @JsonIgnore
+    private String username;
     private String profileName;
     private String urlIcon;
     private String biography;
@@ -64,6 +68,12 @@ public class Profile implements Serializable {
     private List<Books> favoriteBooks = new ArrayList<>();
 
     public Profile(){}
+
+    public Profile(User user){
+        this.id = user.getId();
+        this.profileName = user.getFullName();
+        this.user = user;
+    }
 
     public Profile(Integer id, User user, String profileName, String urlIcon, String biography, List<User> followers,
             List<User> following, List<Books> wishList, List<Books> favoriteBooks) {

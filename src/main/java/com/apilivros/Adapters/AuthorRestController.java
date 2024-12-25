@@ -24,13 +24,18 @@ import com.apilivros.Dto.AuthorDTO;
 import com.apilivros.Dto.Mappers.AuthorMapper;
 import com.apilivros.Services.AuthorService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Endpoints de Autores")
 @RestController
 @RequestMapping("/author")
 public class AuthorRestController {
-    
+    //@Operation(summary = "Authenticates a user and returns a token.")
     @Autowired
     private AuthorService service;
 
+    @Operation(summary = "Busca todos os Autores registrados.")
     @GetMapping
     public ResponseEntity<Page<AuthorDTO>> findAll(
         @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -42,12 +47,14 @@ public class AuthorRestController {
             Page<AuthorDTO> dtoPage = service.findAll(pageable);
             return ResponseEntity.ok(dtoPage);
     }
+    @Operation(summary = "Retorna um Autor pelo ID.")
     @GetMapping(value = "/{id}")
     public ResponseEntity<AuthorDTO> findById(@PathVariable Integer id){
         AuthorDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
+    @Operation(summary = "Retorna um Autor pelo nome.")
     @GetMapping(value = "/username/{username}")
     public ResponseEntity<AuthorDTO> findByAuthorname(@PathVariable String username){
         Author user = service.findByAuthorname(username);
@@ -55,6 +62,7 @@ public class AuthorRestController {
         return ResponseEntity.ok().body(dto);
     }
 
+    @Operation(summary = "Registra um novo Autor.")
     @PostMapping
     public ResponseEntity<AuthorDTO> insert(@RequestBody AuthorDTO objDTO){
         Author obj = AuthorMapper.fromDTO(objDTO);
@@ -63,12 +71,14 @@ public class AuthorRestController {
         return ResponseEntity.created(uri).body(new AuthorDTO(obj));
     }
 
+    @Operation(summary = "Deleta um Autor pelo ID.")
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Atualiza um Autor pelo ID.")
     @PutMapping(value = "/{id}")
     public ResponseEntity<AuthorDTO> update(@PathVariable Integer id, @RequestBody AuthorDTO objDTO){
         Author obj =  AuthorMapper.fromDTO(objDTO);

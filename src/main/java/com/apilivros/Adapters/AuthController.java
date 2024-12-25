@@ -17,7 +17,7 @@ import com.apilivros.Services.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Tag(name = "Authentication Endpoint")
+@Tag(name = "Endpoints de Autenticação")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -26,6 +26,7 @@ public class AuthController {
     AuthService authService;
 
     @SuppressWarnings("rawtypes")
+    @Operation(summary = "Registra Usuário.")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody AccountCredentialsDTO data){
         if (checkParamIsNotNull(data)) 
@@ -34,7 +35,7 @@ public class AuthController {
         return ResponseEntity.ok().body(data);
     }
     @SuppressWarnings("rawtypes")
-    @Operation(summary = "Authenticates a user and returns a token.")
+    @Operation(summary = "Faz o Login do usuario retornando um Token.")
     @PostMapping(value = "/signin")
     public ResponseEntity signin(@RequestBody AccountCredentialsDTO data){
         if (checkParamIsNotNull(data)) 
@@ -46,7 +47,7 @@ public class AuthController {
     }
 
     @SuppressWarnings("rawtypes")
-    @Operation(summary = "Refresh token for authenticated user and returns a token.")
+    @Operation(summary = "Atualiza o Token do usuario.")
     @PutMapping(value = "/refresh/{username}")
     public ResponseEntity refreshToken(@PathVariable("username") String username,
     @RequestHeader("Authorization") String refreshToken){

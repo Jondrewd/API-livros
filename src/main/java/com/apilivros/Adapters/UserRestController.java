@@ -25,7 +25,11 @@ import com.apilivros.Domain.User;
 import com.apilivros.Dto.UserDTO;
 import com.apilivros.Services.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @EnableMethodSecurity(prePostEnabled = true)
+@Tag(name = "Endpoints de Usuários")
 @RestController
 @RequestMapping("/users")
 public class UserRestController {
@@ -33,47 +37,54 @@ public class UserRestController {
     @Autowired
     private UserService service;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN)")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @Operation(summary = "Retorna uma lista paginada de usuários.")
     @GetMapping
     public ResponseEntity<Page<UserDTO>> findAll(
         @RequestParam(value = "page", defaultValue = "0") Integer page,
         @RequestParam(value = "size", defaultValue = "12") Integer size,
-        @RequestParam(value = "direction", defaultValue = "asc") String direction){
+        @RequestParam(value = "direction", defaultValue = "asc") String direction) {
 
             var sortDirection = "desc".equalsIgnoreCase(direction) ? Sort.Direction.DESC : Sort.Direction.ASC;
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "username"));
             Page<UserDTO> dtoPage = service.findAll(pageable);
             return ResponseEntity.ok(dtoPage);
     }
+
+    @Operation(summary = "Retorna um usuário pelo seu ID.")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Integer id){
+    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
         UserDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
+    @Operation(summary = "Retorna um usuário pelo seu nome de usuário.")
     @GetMapping(value = "/username/{username}")
-    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username){
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
         User user = service.findByUsername(username);
         UserDTO dto = new UserDTO(user);
         return ResponseEntity.ok().body(dto);
     }
 
+    @Operation(summary = "Cria um novo usuário.")
     @PostMapping
-    public ResponseEntity<UserDTO> insert(@RequestBody UserDTO objDTO){
+    public ResponseEntity<UserDTO> insert(@RequestBody UserDTO objDTO) {
         User obj = service.fromDTO(objDTO);
         obj = service.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(new UserDTO(obj));
     }
 
+    @Operation(summary = "Deleta um usuário pelo seu ID.")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Atualiza um usuário existente.")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO objDTO){
+    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO objDTO) {
         User obj = service.fromDTO(objDTO);
         obj = service.update(id, obj);
         return ResponseEntity.ok().body(new UserDTO(obj));

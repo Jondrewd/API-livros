@@ -20,10 +20,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.apilivros.Domain.Books;
 import com.apilivros.Dto.BookDTO;
 import com.apilivros.Services.BookService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
+@Tag(name = "Endpoints de Livros")
 @RestController
 @RequestMapping("/books")
 public class BooksRestController {
@@ -31,6 +36,7 @@ public class BooksRestController {
     @Autowired
     private BookService service;
 
+    @Operation(summary = "Retorna todos os Livros registrados.")
     @GetMapping
     public ResponseEntity<Page<BookDTO>> findAll(
         @RequestParam(value = "page", defaultValue = "0") Integer page,
@@ -40,6 +46,7 @@ public class BooksRestController {
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
             return ResponseEntity.ok(service.findAll(pageable));
     }
+    @Operation(summary = "Retorna Livros pelo titulo.")
     @GetMapping(value = "/title/{title}")
     public ResponseEntity<Page<BookDTO>> findByTitle(
         @PathVariable(value = "title") String title,
@@ -52,6 +59,7 @@ public class BooksRestController {
             return ResponseEntity.ok(service.findByTitle(title, pageable));
     }
 
+    @Operation(summary = "Retorna Livros pela média de notas.")
     @GetMapping(value = "/rating/{rating}")
     public ResponseEntity<Page<BookDTO>> findByRating(
         @PathVariable(value = "rating") Integer rating,
@@ -63,6 +71,7 @@ public class BooksRestController {
             Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "title"));
             return ResponseEntity.ok(service.findByRating(rating, pageable));
     }
+    @Operation(summary = "Retorna Livros pelo gênero.")
     @GetMapping(value = "/genre/{genre}")
     public ResponseEntity<Page<BookDTO>> findByGenre(
         @PathVariable(value = "genre") Integer genre,
@@ -75,6 +84,7 @@ public class BooksRestController {
             return ResponseEntity.ok(service.findByGenre(genre, pageable));
     }
     
+    @Operation(summary = "Retorna Livros por Autor.")
     @GetMapping(value = "/author/{author}")
     public ResponseEntity<Page<BookDTO>> findByAuthor(
         @PathVariable(value = "author") String author,
@@ -87,11 +97,14 @@ public class BooksRestController {
             return ResponseEntity.ok(service.findByAuthor(author, pageable));
     }
 
+    @Operation(summary = "Retorna Livro pelo ID.")
     @GetMapping(value = "/{id}")
     public ResponseEntity<BookDTO> findById(@PathVariable Integer id){
         BookDTO book = service.findById(id);
         return ResponseEntity.ok().body(book);
     }
+
+    @Operation(summary = "Registra um novo Livro.")
     @PostMapping
     public ResponseEntity<BookDTO> insertBook(@RequestBody BookDTO objdDto) {
         Books obj = service.insertBook(objdDto);
@@ -99,9 +112,18 @@ public class BooksRestController {
         return ResponseEntity.created(uri).body(objdDto);
     }
 
+    @Operation(summary = "Deleta Livro pelo ID.")
     @DeleteMapping
     public ResponseEntity<Void> deleteBook(Integer id){
         service.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
+    @Operation(summary = "Atualiza um Livro existente pelo ID.")
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<BookDTO> updateBook(
+        @PathVariable Integer id,
+        @RequestBody BookDTO objDto) {
+        BookDTO updatedBook = service.updateBook(id, objDto);
+        return ResponseEntity.ok().body(updatedBook);
+}
 }

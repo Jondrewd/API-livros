@@ -1,6 +1,7 @@
 package com.apilivros.Adapters;
 
 import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +18,10 @@ import com.apilivros.Domain.Review;
 import com.apilivros.Dto.ReviewDTO;
 import com.apilivros.Services.ReviewService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Endpoints de Avaliações")
 @RestController
 @RequestMapping("/reviews")
 public class ReviewRestController {
@@ -24,27 +29,33 @@ public class ReviewRestController {
     @Autowired
     private ReviewService reviewService;
 
+    @Operation(summary = "Retorna uma avaliação de um livro por usuário.")
     @GetMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<ReviewDTO> findById(@PathVariable Integer book_id, @PathVariable Integer user_id){
+    public ResponseEntity<ReviewDTO> findById(@PathVariable Integer book_id, @PathVariable Integer user_id) {
         ReviewDTO dto = reviewService.findById(book_id, user_id);
         return ResponseEntity.ok().body(dto);
     }
+
+    @Operation(summary = "Registra uma nova avaliação.")
     @PostMapping
-    public ResponseEntity<Review> insert(@RequestBody Review obj){
+    public ResponseEntity<Review> insert(@RequestBody Review obj) {
         obj = reviewService.insert(obj);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
     }
+
+    @Operation(summary = "Deleta uma avaliação de um livro por usuário.")
     @DeleteMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer book_id, @PathVariable Integer user_id){
+    public ResponseEntity<Void> delete(@PathVariable Integer book_id, @PathVariable Integer user_id) {
         reviewService.delete(book_id, user_id);
         return ResponseEntity.noContent().build();
-    } 
+    }
+
+    @Operation(summary = "Atualiza uma avaliação existente.")
     @PutMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<ReviewDTO> update(@PathVariable Integer book_id, @PathVariable Integer user_id, @RequestBody ReviewDTO objDTO){
+    public ResponseEntity<ReviewDTO> update(@PathVariable Integer book_id, @PathVariable Integer user_id, @RequestBody ReviewDTO objDTO) {
         Review obj = reviewService.fromDTO(objDTO);
         obj = reviewService.editReview(book_id ,user_id, obj);
         return ResponseEntity.ok().body(new ReviewDTO(obj));
     }
-    
 }

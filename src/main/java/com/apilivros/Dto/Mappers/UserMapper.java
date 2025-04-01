@@ -17,4 +17,7 @@ public class UserMapper {
                             .collect(Collectors.toList()));
         return user;
     }
+    public static UserDTO toDTO(User user){
+        return new UserDTO(user);
+    }
 }

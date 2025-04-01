@@ -91,7 +91,7 @@ public class Review implements Serializable {
     public void setId(Books book, User user) {
         this.id = new ReviewID(book.getId(), user.getId());;
     }
-    public void setId(Integer bookId, Integer userId) {
+    public void setId(Long bookId, Long userId) {
         this.id = new ReviewID(bookId, userId);;
     }
 

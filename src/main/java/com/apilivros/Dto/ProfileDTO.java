@@ -4,42 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 import com.apilivros.Domain.Profile;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ProfileDTO {
 
-    private Integer id;
-    private String profileName;
+    private Long id;
+    private String username;
     private String urlIcon;
     private String biography;
-    private List<UserDTO> followers = new ArrayList<>();
-    private List<UserDTO> following = new ArrayList<>();
+    private List<FollowerDTO> followers = new ArrayList<>();
+    private List<FollowerDTO> following = new ArrayList<>();
     private List<BookDTO> wishList = new ArrayList<>();
     private List<BookDTO> favoriteBooks = new ArrayList<>();  
 
     @JsonIgnore
     private UserDTO user;
-    private String username;
     private List<ReviewDTO> reviews;
 
-    public ProfileDTO(){}
+    public ProfileDTO() {}
 
-    public ProfileDTO(Profile profile){
-        id = profile.getId();
-        user = new UserDTO(profile.getUser());
-        username = user.getUsername();
-        profileName = profile.getProfileName();
-        urlIcon = profile.getUrlIcon();
-        biography = profile.getBiography();
-        reviews = user.getReviews();
-        followers = profile.getFollowers().stream().map(UserDTO::new).collect(Collectors.toList());
-        following = profile.getFollowing().stream().map(UserDTO::new).collect(Collectors.toList());
-        wishList = profile.getWishList().stream().map(BookDTO::new).collect(Collectors.toList());
-        favoriteBooks = profile.getFavoriteBooks().stream().map(BookDTO::new).collect(Collectors.toList());
+    public ProfileDTO(Profile profile) {
+        this.id = profile.getId();
+        this.user = new UserDTO(profile.getUser());
+        this.username = profile.getUsername();
+        this.urlIcon = profile.getUrlIcon();
+        this.biography = profile.getBiography();
+        this.reviews = user.getReviews();
+        this.wishList = profile.getWishList().stream().map(BookDTO::new).collect(Collectors.toList());
+        this.favoriteBooks = profile.getFavoriteBooks().stream().map(BookDTO::new).collect(Collectors.toList());
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -51,7 +49,7 @@ public class ProfileDTO {
         this.username = username;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -79,19 +77,19 @@ public class ProfileDTO {
         this.biography = biography;
     }
 
-    public List<UserDTO> getFollowers() {
+    public List<FollowerDTO> getFollowers() {
         return followers;
     }
 
-    public void setFollowers(List<UserDTO> followers) {
+    public void setFollowers(List<FollowerDTO> followers) {
         this.followers = followers;
     }
 
-    public List<UserDTO> getFollowing() {
+    public List<FollowerDTO> getFollowing() {
         return following;
     }
 
-    public void setFollowing(List<UserDTO> following) {
+    public void setFollowing(List<FollowerDTO> following) {
         this.following = following;
     }
 
@@ -111,14 +109,6 @@ public class ProfileDTO {
         this.favoriteBooks = favoriteBooks;
     }
 
-    public String getProfileName() {
-        return profileName;
-    }
-
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
-    }
-
     public List<ReviewDTO> getReviews() {
         return reviews;
     }
@@ -126,5 +116,6 @@ public class ProfileDTO {
     public void setReviews(List<ReviewDTO> reviews) {
         this.reviews = reviews;
     }
+
     
 }

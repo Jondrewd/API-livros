@@ -25,7 +25,7 @@ public class Books implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     private String title;
     
     @ManyToOne
@@ -43,7 +43,7 @@ public class Books implements Serializable {
     private List<Integer> genres = new ArrayList<>();
     public Books() {
     }
-    public Books(Integer id, String title, List<Integer> genres, Author author, Double rating, String imageUrl, String description) {
+    public Books(Long id, String title, List<Integer> genres, Author author, Double rating, String imageUrl, String description) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -61,11 +61,11 @@ public class Books implements Serializable {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

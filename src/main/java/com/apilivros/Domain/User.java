@@ -20,6 +20,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,10 +30,13 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "user_name", unique = true)
     private String username;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+    private Profile profile;
 
     @Column(name = "full_name")
     private String fullName;
@@ -65,7 +69,7 @@ public class User implements UserDetails {
 
     public User() {}
 
-    public User(Integer id, String username, String fullName, String password, boolean accountNonExpired,
+    public User(Long id, String username, String fullName, String password, boolean accountNonExpired,
             boolean accountNonLocked, boolean credentialsNonExpired, boolean enabled, List<Roles> roles) {
         this.id = id;
         this.username = username;
@@ -78,11 +82,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

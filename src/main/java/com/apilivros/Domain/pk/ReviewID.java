@@ -8,27 +8,27 @@ import jakarta.persistence.Embeddable;
 public class ReviewID {
 
     @Column(name = "book_id")
-    private Integer bookId;
+    private Long bookId;
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     
     public ReviewID() {
     }
-    public ReviewID(Integer bookId, Integer userId) {
+    public ReviewID(Long bookId, Long userId) {
         this.bookId = bookId;
         this.userId = userId;
     }
-    public Integer getBookId() {
+    public Long getBookId() {
         return bookId;
     }
-    public void setBookId(Integer bookId) {
+    public void setBookId(Long bookId) {
         this.bookId = bookId;
     }
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
     

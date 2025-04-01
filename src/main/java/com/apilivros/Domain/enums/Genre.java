@@ -8,7 +8,31 @@ public enum Genre {
     NOVEL(5),
     FAIRY_TALE(6),
     SATIRE(7),
-    MISTERY(8);
+    MISTERY(8),
+    DRAMA(9),
+    ROMANCE(10),
+    ADVENTURE(11),
+    BIOGRAPHY(12),
+    HISTORICAL(13),
+    POETRY(14),
+    SELF_HELP(15),
+    PHILOSOPHY(16),
+    AUTOBIOGRAPHY(17),
+    CRIME(18),
+    MYTHOLOGY(19),
+    HUMOR(20),
+    RELIGION(21),
+    CLASSIC(22),
+    ESSAY(23),
+    SCIENCE(24),
+    CHILDRENS(25),
+    YOUNG_ADULT(26),
+    DYSTOPIA(27),
+    GRAPHIC_NOVEL(28),
+    SHORT_STORY(29),
+    PARANORMAL(30),
+    SPORTS(31),
+    TRAVEL(32);
 
     private int code;
 

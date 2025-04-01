@@ -5,12 +5,11 @@ import java.util.List;
 
 import com.apilivros.Domain.User;
 import com.apilivros.Dto.Mappers.ReviewMapper;
-
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDTO {
-    @Id
-    private Integer id;
+    @JsonIgnore
+    private Long id;
     private String username;
     private String fullName;
     private List<String> roles;
@@ -27,11 +26,11 @@ public class UserDTO {
         roles = user.getRoleNames();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,11 +54,11 @@ public class UserDTO {
         return reviews;
     }
 
-    public List<String> getRoless() {
+    public List<String> getRoles() {
         return roles;
     }
 
-    public void setRoless(List<String> roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 

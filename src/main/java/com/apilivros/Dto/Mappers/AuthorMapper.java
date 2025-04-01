@@ -2,16 +2,20 @@ package com.apilivros.Dto.Mappers;
 
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.apilivros.Domain.Author;
 import com.apilivros.Dto.AuthorDTO;
 import com.apilivros.Services.AuthorService;
 
-
+@Component
 public class AuthorMapper {
 
-    private static AuthorService service;
+    @Autowired
+    private  AuthorService service;
     
-    public static Author fromDTO(AuthorDTO dto) {
+    public Author fromDTO(AuthorDTO dto) {
     Author author = new Author();
     author.setName(dto.getName());
     author.setDescription(dto.getDescription());
@@ -23,12 +27,13 @@ public class AuthorMapper {
     return author;
     }
 
+
     
-    public static AuthorDTO convertToDTO(Author author) {
+    public AuthorDTO convertToDTO(Author author) {
         return new AuthorDTO(author);
     }
 
-    public static Author searchAuthorByName(String authorName){
+    public AuthorDTO searchAuthorByName(String authorName){
         return service.findByAuthorname(authorName);
     }
 

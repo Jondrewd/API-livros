@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,44 +15,29 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="Profile")
+@Table(name = "profile")
 public class Profile implements Serializable {
-    private static final long serialVersionUID =1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    @JsonIgnore
     private String username;
-    private String profileName;
     private String urlIcon;
     private String biography;
-    
-    @ManyToMany
-    @JoinTable(
-        name = "user_followers",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "follower_id")
-    )
-    private List<User> followers = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "user_following",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "following_id")
-    )
-    private List<User> following = new ArrayList<>();
+    private List<Long> followersIds = new ArrayList<>();
+    private List<Long> followingIds = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
         name = "user_wishlist",
-        joinColumns = @JoinColumn(name = "user_id"),
+        joinColumns = @JoinColumn(name = "profile_id"),
         inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     private List<Books> wishList = new ArrayList<>();
@@ -62,37 +45,37 @@ public class Profile implements Serializable {
     @ManyToMany
     @JoinTable(
         name = "user_favorites",
-        joinColumns = @JoinColumn(name = "user_id"),
+        joinColumns = @JoinColumn(name = "profile_id"),
         inverseJoinColumns = @JoinColumn(name = "book_id")
     )
     private List<Books> favoriteBooks = new ArrayList<>();
 
-    public Profile(){}
+    public Profile() {}
 
-    public Profile(User user){
+    public Profile(User user) {
         this.id = user.getId();
-        this.profileName = user.getFullName();
+        this.username = user.getUsername();
         this.user = user;
     }
 
-    public Profile(Integer id, User user, String profileName, String urlIcon, String biography, List<User> followers,
-            List<User> following, List<Books> wishList, List<Books> favoriteBooks) {
+    public Profile(Long id, User user, String username, String urlIcon, String biography, List<Long> followersIds,
+            List<Long> followingIds, List<Books> wishList, List<Books> favoriteBooks) {
         this.id = id;
         this.user = user;
-        this.profileName = profileName;
+        this.username = username;
         this.urlIcon = urlIcon;
         this.biography = biography;
-        this.followers = followers;
-        this.following = following;
+        this.followersIds = followersIds;
+        this.followingIds = followingIds;
         this.wishList = wishList;
         this.favoriteBooks = favoriteBooks;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -104,16 +87,12 @@ public class Profile implements Serializable {
         this.user = user;
     }
 
-    public String getUserName() {
-        return user.getUsername();
+    public String getUsername() {
+        return username;
     }
 
-    public String getProfileName() {
-        return profileName;
-    }
-
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUrlIcon() {
@@ -132,20 +111,20 @@ public class Profile implements Serializable {
         this.biography = biography;
     }
 
-    public List<User> getFollowers() {
-        return followers;
+    public List<Long> getFollowersIds() {
+        return followersIds;
     }
 
-    public void setFollowers(List<User> followers) {
-        this.followers = followers;
+    public void setFollowersIds(List<Long> followersIds) {
+        this.followersIds = followersIds;
     }
 
-    public List<User> getFollowing() {
-        return following;
+    public List<Long> getFollowingIds() {
+        return followingIds;
     }
 
-    public void setFollowing(List<User> following) {
-        this.following = following;
+    public void setFollowingIds(List<Long> followingIds) {
+        this.followingIds = followingIds;
     }
 
     public List<Books> getWishList() {
@@ -164,8 +143,14 @@ public class Profile implements Serializable {
         this.favoriteBooks = favoriteBooks;
     }
 
-    public List<Review> getReviews() {
-        return user.getReviews();
+    public void addFollower(Long followerId) {
+        if (this.id.equals(followerId)) {
+            throw new IllegalArgumentException("Não pode seguir a si mesmo.");
+        }
+        if (followersIds.contains(followerId)) {
+            throw new IllegalStateException("Já está seguindo este perfil.");
+        }
+        followersIds.add(followerId);
     }
 
     @Override
@@ -192,7 +177,4 @@ public class Profile implements Serializable {
             return false;
         return true;
     }
-    
-    
-    
 }

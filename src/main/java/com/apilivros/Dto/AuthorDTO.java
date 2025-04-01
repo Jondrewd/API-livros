@@ -9,6 +9,7 @@ import com.apilivros.Domain.Books;
 
 public class AuthorDTO {
  
+    public Long id;
     private String name;
     private String description;
     private String nationality;
@@ -18,6 +19,7 @@ public class AuthorDTO {
     public AuthorDTO() {}
 
     public AuthorDTO(Author author){
+        id = author.getId();
         name = author.getName();
         description = author.getDescription();
         nationality = author.getNationality();
@@ -58,5 +60,13 @@ public class AuthorDTO {
                 .map(BookDTO::new) 
                 .collect(Collectors.toList());
         }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 }

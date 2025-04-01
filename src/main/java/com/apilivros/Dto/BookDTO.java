@@ -7,11 +7,9 @@ import com.apilivros.Domain.Books;
 import com.apilivros.Domain.enums.Genre;
 import com.apilivros.Dto.Mappers.ReviewMapper;
 
-import jakarta.persistence.Id;
-
 public class BookDTO {
-    @Id
-    private Integer id;
+
+    private Long id;
     private String title;
     private String author;
     private Double rating;
@@ -33,10 +31,10 @@ public class BookDTO {
         this.description = book.getDescription();
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public String getTitle() {

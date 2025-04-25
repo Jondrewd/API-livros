@@ -1,55 +1,57 @@
 package com.apilivros.Domain.enums;
 
 public enum Genre {
-    FANTASY(1),
-    HORROR(2),
-    THRILLER(3),
-    SCI_FI(4),
-    NOVEL(5),
-    FAIRY_TALE(6),
-    SATIRE(7),
-    MISTERY(8),
-    DRAMA(9),
-    ROMANCE(10),
-    ADVENTURE(11),
-    BIOGRAPHY(12),
-    HISTORICAL(13),
-    POETRY(14),
-    SELF_HELP(15),
-    PHILOSOPHY(16),
-    AUTOBIOGRAPHY(17),
-    CRIME(18),
-    MYTHOLOGY(19),
-    HUMOR(20),
-    RELIGION(21),
-    CLASSIC(22),
-    ESSAY(23),
-    SCIENCE(24),
-    CHILDRENS(25),
-    YOUNG_ADULT(26),
-    DYSTOPIA(27),
-    GRAPHIC_NOVEL(28),
-    SHORT_STORY(29),
-    PARANORMAL(30),
-    SPORTS(31),
-    TRAVEL(32);
 
-    private int code;
+    FANTASY(1, "Fantasy"),
+    HORROR(2, "Horror"),
+    THRILLER(3, "Thriller"),
+    SCIENCE_FICTION(4, "Science Fiction"),
+    ROMANCE(5, "Romance"),
+    ADVENTURE(6, "Adventure"),
+    HISTORY(7, "History"),
+    BIOGRAPHY(8, "Biography"),
+    POETRY(9, "Poetry"),
+    PHILOSOPHY(10, "Philosophy"),
+    CHILDRENS(11, "Children's"),
+    YOUNG_ADULT(12, "Young Adult"),
+    DYSTOPIA(13, "Dystopia"),
+    GRAPHIC_NOVEL(14, "Graphic Novel"),
+    SHORT_STORY(15, "Short Story"),
+    PARANORMAL(16, "Paranormal"),
+    SPORTS(17, "Sports"),
+    TRAVEL(18, "Travel");
 
-    private Genre(int code) {
+    private final int code;
+    private final String name;
+
+    Genre(int code, String name) {
         this.code = code;
+        this.name = name;
     }
 
-    public int getCode(){
+    public int getCode() {
         return code;
     }
 
-    public static Genre valueOf(int code){
-        for(Genre value : Genre.values()){
-            if(value.getCode() == code){
-                return value;
+    public String getName() {
+        return name;
+    }
+
+    public static Genre fromCode(int code) {
+        for (Genre genre : values()) {
+            if (genre.getCode() == code) {
+                return genre;
             }
         }
-        throw new IllegalArgumentException("Codigo invalido!");
+        throw new IllegalArgumentException("Invalid Genre code: " + code);
+    }
+
+    public static Genre fromName(String name) {
+        for (Genre genre : values()) {
+            if (genre.getName().equalsIgnoreCase(name)) {
+                return genre;
+            }
+        }
+        throw new IllegalArgumentException("Invalid Genre name: " + name);
     }
 }

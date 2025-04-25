@@ -8,14 +8,21 @@ import org.springframework.data.repository.query.Param;
 
 import com.apilivros.Domain.Books;
 
-public interface BooksRepository extends JpaRepository<Books, Integer>{
+public interface BooksRepository extends JpaRepository<Books, Long>{
     
-    @Query("SELECT b FROM Books b WHERE b.title LIKE LOWER(CONCAT('%',:title,'%'))")
-    Page<Books> findByTitle(@Param("title") String title, Pageable pageable);
+    @Query("SELECT b FROM Books b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%',:title,'%'))")
+    Page<Books> findByTitle(@Param("title") String title, Pageable pageable);    
 
     @Query("SELECT b FROM Books b WHERE b.rating >= :rating AND b.rating < :rating + 1")
     Page<Books> findByRating(@Param("rating") Integer rating, Pageable pageable);
 
-    @Query("SELECT b FROM Books b WHERE LOWER(b.author.name) LIKE LOWER(CONCAT('%', :author, '%'))")
+    @Query("SELECT b FROM Books b WHERE :genreCode MEMBER OF b.genres")
+    Page<Books> findByGenre(@Param("genreCode") Integer genreCode, Pageable pageable);    
+    
+    @Query("SELECT b FROM Books b WHERE LOWER(b.author) LIKE LOWER(CONCAT('%', :author, '%'))")
     Page<Books> findByAuthor(@Param("author") String author, Pageable pageable);
+
+
+    boolean existsByTitle(String title);
+
 }

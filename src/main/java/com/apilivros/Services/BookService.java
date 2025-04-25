@@ -23,6 +23,7 @@ public class BookService {
     }
 
     public Page<BookDTO> findByTitle(String title, Pageable pageable){
+        title = title.trim();
         Page<Books> bookPage = bookRepository.findByTitle(title, pageable);
         return bookPage.map(BookDTO::new);
     }
@@ -32,12 +33,18 @@ public class BookService {
         return bookPage.map(BookDTO::new);   
     }
 
+    public Page<BookDTO> findByGenre(Integer genre, Pageable pageable){
+        Page<Books> bookPage = bookRepository.findByGenre(genre, pageable); 
+        return bookPage.map(BookDTO::new);   
+    }
+
    public Page<BookDTO> findByAuthor(String author, Pageable pageable){
+        author = author.trim();
         Page<Books> bookPage = bookRepository.findByAuthor(author, pageable); 
         return bookPage.map(BookDTO::new);   
     }
 
-    public BookDTO findById(Integer id){
+    public BookDTO findById(Long id){
         Books book = bookRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado."));
         return BookMapper.convertBookToDTO(book);
@@ -46,8 +53,21 @@ public class BookService {
         Books book = BookMapper.fromDTO(obj);
         return bookRepository.save(book);
     }
-    public void deleteBook(Integer id){
+    public void deleteBook(Long id){
         findById(id);
         bookRepository.deleteById(id);
     }
+    public BookDTO updateBook(Long id, BookDTO objDto) {
+        Books entity = bookRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Livro não encontrado com o ID: " + id));      
+        entity.setTitle(objDto.getTitle());
+        entity.setRating(objDto.getRating());
+        entity.setDescription(objDto.getDescription());
+        entity.setImageUrl(objDto.getImageUrl());
+    
+        entity = bookRepository.save(entity);
+   
+        return new BookDTO(entity);
+    }
+    
 }

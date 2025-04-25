@@ -9,12 +9,12 @@ import com.apilivros.Domain.enums.Genre;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,23 +27,21 @@ public class Books implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    
-    @ManyToOne
-    @JoinColumn(name = "author_id")
-    private Author author;
-
+    private String author;
     private Double rating;
     private String imageUrl;
     private String description;
 
     @OneToMany(mappedBy = "book",  cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
-    
+   
+    @ElementCollection
     @CollectionTable(name = "book_genres", joinColumns = @JoinColumn(name = "book_id"))
-    private List<Integer> genres = new ArrayList<>();
+    private List<Integer> genres;
+
     public Books() {
     }
-    public Books(Long id, String title, List<Integer> genres, Author author, Double rating, String imageUrl, String description) {
+    public Books(Long id, String title, List<Integer> genres, String author, Double rating, String imageUrl, String description) {
         this.id = id;
         this.title = title;
         this.genres = genres;
@@ -87,11 +85,15 @@ public class Books implements Serializable {
     }
 
     public List<Genre> getGenres() {
+        if (genres == null) {
+            return new ArrayList<>();  
+        }
         return genres.stream()
-                     .map(Genre::valueOf)
+                     .map(Genre::fromCode) 
                      .collect(Collectors.toList());
     }
-
+    
+    
     public void setGenres(List<Genre> genres) {
         if (genres != null) {
             this.genres = genres.stream()
@@ -99,12 +101,16 @@ public class Books implements Serializable {
                                 .collect(Collectors.toList());
         }
     }
+    public void setGenresCode(List<Integer> genres) {
+        this.genres = genres;
+    }
 
-    public Author getAuthor() {
+
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(Author author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

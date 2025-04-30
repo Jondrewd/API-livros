@@ -30,32 +30,32 @@ public class ReviewRestController {
     private ReviewService reviewService;
 
     @Operation(summary = "Retorna uma avaliação de um livro por usuário.")
-    @GetMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<ReviewDTO> findById(@PathVariable Integer book_id, @PathVariable Integer user_id) {
-        ReviewDTO dto = reviewService.findById(book_id, user_id);
+    @GetMapping(value = "/{book_id}/{reviews_id}")
+    public ResponseEntity<ReviewDTO> findById(@PathVariable Long book_id, @PathVariable Long reviews_id) {
+        ReviewDTO dto = reviewService.findById(book_id, reviews_id);
         return ResponseEntity.ok().body(dto);
     }
 
     @Operation(summary = "Registra uma nova avaliação.")
     @PostMapping
-    public ResponseEntity<Review> insert(@RequestBody Review obj) {
-        obj = reviewService.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+    public ResponseEntity<?> insert(@RequestBody ReviewDTO obj) {
+        reviewService.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getProfileId()).toUri();
         return ResponseEntity.created(uri).body(obj);
     }
 
     @Operation(summary = "Deleta uma avaliação de um livro por usuário.")
-    @DeleteMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer book_id, @PathVariable Integer user_id) {
-        reviewService.delete(book_id, user_id);
+    @DeleteMapping(value = "/{book_id}/{reviews_id}")
+    public ResponseEntity<Void> delete(@PathVariable Long book_id, @PathVariable Long reviews_id) {
+        reviewService.delete(book_id, reviews_id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Atualiza uma avaliação existente.")
-    @PutMapping(value = "/{book_id}/{user_id}")
-    public ResponseEntity<ReviewDTO> update(@PathVariable Integer book_id, @PathVariable Integer user_id, @RequestBody ReviewDTO objDTO) {
+    @PutMapping(value = "/{book_id}/{reviews_id}")
+    public ResponseEntity<ReviewDTO> update(@PathVariable Long book_id, @PathVariable Long reviews_id, @RequestBody ReviewDTO objDTO) {
         Review obj = reviewService.fromDTO(objDTO);
-        obj = reviewService.editReview(book_id ,user_id, obj);
+        obj = reviewService.editReview(book_id ,reviews_id, obj);
         return ResponseEntity.ok().body(new ReviewDTO(obj));
     }
 }

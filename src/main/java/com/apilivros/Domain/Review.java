@@ -8,7 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -31,14 +30,14 @@ public class Review implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable=false, updatable=false)
-    private User user;
+    @JoinColumn(name = "profile_id", insertable=false, updatable=false)
+    private Profile profile;
 
     public Review(){}
 
-    public Review(ReviewID id, User user, String comment, Double score, Books book) {
-        this.id = new ReviewID(book.getId(), user.getId());
-        this.user = user;
+    public Review(ReviewID id, Profile profile, String comment, Double score, Books book) {
+        this.id = new ReviewID(book.getId(), profile.getId());
+        this.profile = profile;
         this.comment = comment;
         if (score > 10) {
             throw new CommonException("Error: Digite uma pontuacao entre 0.0 e 10.0.");
@@ -48,12 +47,12 @@ public class Review implements Serializable {
         this.book = book;
     }
 
-    public User getUser() {
-        return user;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
     public String getComment() {
@@ -88,11 +87,11 @@ public class Review implements Serializable {
         return id;
     }
 
-    public void setId(Books book, User user) {
-        this.id = new ReviewID(book.getId(), user.getId());;
+    public void setId(Books book, Profile profile) {
+        this.id = new ReviewID(book.getId(), profile.getId());
     }
-    public void setId(Long bookId, Long userId) {
-        this.id = new ReviewID(bookId, userId);;
+    public void setId(Long bookId, Long profileId) {
+        this.id = new ReviewID(bookId, profileId);
     }
 
     @Override

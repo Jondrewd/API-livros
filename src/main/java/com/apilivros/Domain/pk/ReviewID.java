@@ -9,15 +9,15 @@ public class ReviewID {
 
     @Column(name = "book_id")
     private Long bookId;
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "profile_id")
+    private Long profileId;
 
     
     public ReviewID() {
     }
-    public ReviewID(Long bookId, Long userId) {
+    public ReviewID(Long bookId, Long profileId) {
         this.bookId = bookId;
-        this.userId = userId;
+        this.profileId = profileId;
     }
     public Long getBookId() {
         return bookId;
@@ -26,10 +26,10 @@ public class ReviewID {
         this.bookId = bookId;
     }
     public Long getUserId() {
-        return userId;
+        return profileId;
     }
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserId(Long profileId) {
+        this.profileId = profileId;
     }
     
 }

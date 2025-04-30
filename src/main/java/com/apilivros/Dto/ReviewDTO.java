@@ -1,27 +1,24 @@
 package com.apilivros.Dto;
 
-
 import com.apilivros.Domain.Review;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 
 public class ReviewDTO {
     private String comment;
     private Double score;
-    private String user;
+    private String profile;
     private String book;
-    
-    @JsonIgnore
-    private Long userId;
-    @JsonIgnore
+
+    private Long profileId;
     private Long bookId;
 
     public ReviewDTO(){}
     public ReviewDTO(Review review) {
         comment = review.getComment();
         score = review.getScore();
-        user = review.getUser().getUsername();
+        profile = review.getProfile().getUsername();
         book = review.getBook().getTitle();
+        profileId = review.getProfile().getId();
+        bookId = review.getBook().getId();
     }
 
     public String getComment() {
@@ -40,12 +37,12 @@ public class ReviewDTO {
         this.score = score;
     }
 
-    public String getUser() {
-        return user;
+    public String getProfile() {
+        return profile;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     public String getBook() {
@@ -56,12 +53,12 @@ public class ReviewDTO {
         this.book = book;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getProfileId() {
+        return profileId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setProfileId(Long profileId) {
+        this.profileId = profileId;
     }
 
     public Long getBookId() {

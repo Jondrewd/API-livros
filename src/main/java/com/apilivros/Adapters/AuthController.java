@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.apilivros.Dto.AccountCredentialsDTO;
+import com.apilivros.Dto.RegisterDTO;
 import com.apilivros.Services.AuthService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,11 +29,11 @@ public class AuthController {
     @SuppressWarnings("rawtypes")
     @Operation(summary = "Registra Usuário.")
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody AccountCredentialsDTO data){
+    public ResponseEntity register(@RequestBody RegisterDTO data){
         if (checkParamIsNotNull(data)) 
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid client request.");
         authService.register(data);
-        return ResponseEntity.ok().body(data);
+        return ResponseEntity.ok().build();
     }
     @SuppressWarnings("rawtypes")
     @Operation(summary = "Faz o Login do usuario retornando um Token.")
@@ -67,5 +68,8 @@ public class AuthController {
         return data == null || data.getUsername() == null || data.getUsername().isBlank() ||
         data.getPassword() == null || data.getPassword().isBlank();
     }
-   
+   private boolean checkParamIsNotNull(RegisterDTO data){
+        return data == null || data.getUsername() == null || data.getUsername().isBlank() ||
+        data.getPassword() == null || data.getPassword().isBlank();
+    }
 }

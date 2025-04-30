@@ -11,10 +11,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.apilivros.Domain.Profile;
 import com.apilivros.Domain.Roles;
 import com.apilivros.Domain.User;
 import com.apilivros.Dto.AccountCredentialsDTO;
+import com.apilivros.Dto.RegisterDTO;
 import com.apilivros.Dto.TokenDTO;
+import com.apilivros.Repository.ProfileRepository;
 import com.apilivros.Repository.RolesRepository;
 import com.apilivros.Repository.UserRepository;
 import com.apilivros.config.SecurityConfig;
@@ -31,6 +34,8 @@ public class AuthService {
 
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private ProfileRepository profileRepository;
     
     @Autowired
     private RolesRepository roleRepository;
@@ -39,7 +44,7 @@ public class AuthService {
     private SecurityConfig config;
 
      @SuppressWarnings("rawtypes")
-    public ResponseEntity register(AccountCredentialsDTO data){
+    public ResponseEntity register(RegisterDTO data){
         try {
             if (checkUsername(data.getUsername()) == true) {
                 return new ResponseEntity<>("Já existe um usúario cadastrado com esse nome de usuario.", HttpStatus.OK);
@@ -49,8 +54,9 @@ public class AuthService {
             user.setPassword(config.passwordEncoder().encode(data.getPassword()));
             Roles roles = roleRepository.findByName("ROLE_USER").get();
             user.setRoles(Collections.singletonList(roles));
-
+            Profile profile = new Profile(user);
             repository.save(user);
+            profileRepository.save(profile);
             return new ResponseEntity<>("Usuario registrado", HttpStatus.OK);
             }
         } catch (Exception e) {

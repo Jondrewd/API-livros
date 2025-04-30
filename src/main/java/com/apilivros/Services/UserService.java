@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.apilivros.Domain.User;
 import com.apilivros.Dto.UserDTO;
-import com.apilivros.Dto.Mappers.ReviewMapper;
 import com.apilivros.Repository.UserRepository;
 import com.apilivros.Services.Exceptions.ResourceNotFoundException;
 
@@ -31,7 +30,7 @@ public class UserService implements UserDetailsService{
         return users.map(this::convertToDTO);
     }
 
-    public UserDTO findById(Integer id){
+    public UserDTO findById(Long id){
         User user = userRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Objeto não encontrado."));
         return convertToDTO(user);
@@ -41,12 +40,12 @@ public class UserService implements UserDetailsService{
         return userRepository.save(obj);
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         findById(id);
         userRepository.deleteById(id);
     }
 
-    public User update(Integer id, User obj) {
+    public User update(Long id, User obj) {
         Optional<User> newObj = userRepository.findById(id);
         User user = newObj.get();
         updateUser(user, obj);
@@ -85,10 +84,6 @@ public class UserService implements UserDetailsService{
         user.setId(dto.getId()); 
         user.setUsername(dto.getUsername());
         user.setFullName(dto.getFullName());
-        user.setReviews(dto.getReviews()
-                            .stream()
-                            .map(ReviewMapper::fromDTO)
-                            .collect(Collectors.toList()));
         return user;
     }
     

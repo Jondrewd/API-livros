@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 
 import com.apilivros.Domain.Profile;
-
+import com.apilivros.Dto.Mappers.ReviewMapper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class ProfileDTO {
@@ -19,10 +19,10 @@ public class ProfileDTO {
     private List<FollowerDTO> following = new ArrayList<>();
     private List<BookDTO> wishList = new ArrayList<>();
     private List<BookDTO> favoriteBooks = new ArrayList<>();  
+    private List<ReviewDTO> reviews = new ArrayList<>();
 
     @JsonIgnore
     private UserDTO user;
-    private List<ReviewDTO> reviews;
 
     public ProfileDTO() {}
 
@@ -32,9 +32,9 @@ public class ProfileDTO {
         this.username = profile.getUsername();
         this.urlIcon = profile.getUrlIcon();
         this.biography = profile.getBiography();
-        this.reviews = user.getReviews();
         this.wishList = profile.getWishList().stream().map(BookDTO::new).collect(Collectors.toList());
         this.favoriteBooks = profile.getFavoriteBooks().stream().map(BookDTO::new).collect(Collectors.toList());
+        this.reviews = ReviewMapper.convertReviewsToDTO(profile.getReviews());
     }
 
     public Long getId() {
@@ -117,5 +117,6 @@ public class ProfileDTO {
         this.reviews = reviews;
     }
 
-    
 }
+    
+

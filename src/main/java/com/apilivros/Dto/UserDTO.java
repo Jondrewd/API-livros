@@ -1,10 +1,8 @@
 package com.apilivros.Dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.apilivros.Domain.User;
-import com.apilivros.Dto.Mappers.ReviewMapper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDTO {
@@ -14,15 +12,12 @@ public class UserDTO {
     private String fullName;
     private List<String> roles;
 
-    private List<ReviewDTO> reviews = new ArrayList<>();;
-
     public UserDTO(){}
     
     public UserDTO(User user) {
         id = user.getId();
         username = user.getUsername();
         fullName = user.getFullName();
-        this.reviews = ReviewMapper.convertReviewsToDTO(user.getReviews());
         roles = user.getRoleNames();
     }
 
@@ -50,9 +45,6 @@ public class UserDTO {
         this.fullName = fullName;
     }
 
-    public List<ReviewDTO> getReviews() {
-        return reviews;
-    }
 
     public List<String> getRoles() {
         return roles;
@@ -62,9 +54,5 @@ public class UserDTO {
         this.roles = roles;
     }
 
-    public void setReviews(List<ReviewDTO> reviews) {
-        this.reviews = reviews;
-    }
-    
     
 }

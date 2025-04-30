@@ -6,7 +6,7 @@ import com.apilivros.Domain.Roles;
 
 import java.util.Optional;
 
-public interface RolesRepository extends JpaRepository<Roles, Integer>{
+public interface RolesRepository extends JpaRepository<Roles, Long>{
     
     Optional<Roles> findByName(String name);
     

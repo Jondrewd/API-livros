@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.apilivros.Domain.Profile;
 import com.apilivros.Dto.ProfileDTO;
+import com.apilivros.Dto.ProfileEditDTO;
 import com.apilivros.Services.ProfileService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,16 +49,15 @@ public class ProfileRestController {
 
     @Operation(summary = "Retorna um perfil pelo seu ID.")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProfileDTO> findById(@PathVariable Integer id){
+    public ResponseEntity<ProfileDTO> findById(@PathVariable Long id){
         ProfileDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 
     @Operation(summary = "Retorna um perfil pelo nome de usuário.")
     @GetMapping(value = "/username/{username}")
-    public ResponseEntity<ProfileDTO> findByProfilename(@PathVariable String username){
-        Profile user = service.findByProfilename(username);
-        ProfileDTO dto = new ProfileDTO(user);
+    public ResponseEntity<ProfileDTO> findByusername(@PathVariable String username){
+        ProfileDTO dto = service.findByusername(username);
         return ResponseEntity.ok().body(dto);
     }
 
@@ -73,15 +72,70 @@ public class ProfileRestController {
 
     @Operation(summary = "Deleta um perfil pelo seu ID.")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Atualiza um perfil existente.")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<ProfileDTO> update(@PathVariable Integer id, @RequestBody ProfileDTO objDTO){
+    public ResponseEntity<ProfileDTO> update(@PathVariable Long id, @RequestBody ProfileEditDTO objDTO){
         ProfileDTO obj = service.update(id, objDTO);
         return ResponseEntity.ok().body(obj);
     }
+
+    @Operation(summary = "Permite que um perfil siga outro.")
+    @PutMapping(value = "/{idFollower}/follow/{idProfile}")
+    public ResponseEntity<String> follow(
+            @PathVariable Long idFollower, 
+            @PathVariable Long idProfile) {
+        service.follow(idFollower, idProfile);
+        return ResponseEntity.ok("Perfil com ID " + idFollower + " agora segue o perfil com ID " + idProfile);
+    }
+
+    @Operation(summary = "Faz com que um perfil deixe de seguir outro.")
+    @DeleteMapping(value = "/{idFollower}/follow/{idProfile}")
+    public ResponseEntity<String> unfollow(
+            @PathVariable Long idFollower, 
+            @PathVariable Long idProfile) {
+        service.unfollow(idFollower, idProfile);
+        return ResponseEntity.ok("Perfil com ID " + idFollower + " deixou de seguir " + idProfile);
+    }
+
+    @Operation(summary = "Adiciona um livro a WishList de um perfil")
+    @PutMapping(value = "/{profileId}/wishlist/{bookId}")
+    public ResponseEntity<String> addToWishlist(
+            @PathVariable Long profileId,
+            @PathVariable Long bookId) {
+        service.addToWishlist(profileId, bookId);
+        return ResponseEntity.ok("Livro com ID " + bookId + " adicionado à wishlist do perfil com ID " + profileId);
+    }
+
+    @Operation(summary = "Remove um livro da WishList de um perfil")
+    @DeleteMapping(value = "/{profileId}/wishlist/{bookId}")
+    public ResponseEntity<String> removeFromWishlist(
+            @PathVariable Long profileId,
+            @PathVariable Long bookId) {
+        service.removeFromWishlist(profileId, bookId);
+        return ResponseEntity.ok("Livro com ID " + bookId + " removido da wishlist do perfil com ID " + profileId);
+    }
+
+    @Operation(summary = "Adiciona um livro da Lista de favoritos de um perfil")
+    @PutMapping(value = "/{profileId}/favorites/{bookId}")
+    public ResponseEntity<String> addToFavorites(
+            @PathVariable Long profileId,
+            @PathVariable Long bookId) {
+        service.addToFavorites(profileId, bookId);
+        return ResponseEntity.ok("Livro com ID " + bookId + " adicionado aos favoritos do perfil com ID " + profileId);
+    }
+
+    @Operation(summary = "Remove um livro da Lista de favoritos de um perfil")
+    @DeleteMapping(value = "/{profileId}/favorites/{bookId}")
+    public ResponseEntity<String> removeFromFavorites(
+            @PathVariable Long profileId,
+            @PathVariable Long bookId) {
+        service.removeFromFavorites(profileId, bookId);
+        return ResponseEntity.ok("Livro com ID " + bookId + " removido dos favoritos do perfil com ID " + profileId);
+    }
+
 }

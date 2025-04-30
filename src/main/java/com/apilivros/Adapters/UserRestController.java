@@ -1,6 +1,5 @@
 package com.apilivros.Adapters;
 
-import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.apilivros.Domain.User;
 import com.apilivros.Dto.UserDTO;
@@ -53,7 +51,7 @@ public class UserRestController {
 
     @Operation(summary = "Retorna um usuário pelo seu ID.")
     @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> findById(@PathVariable Integer id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         UserDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
@@ -71,20 +69,19 @@ public class UserRestController {
     public ResponseEntity<UserDTO> insert(@RequestBody UserDTO objDTO) {
         User obj = service.fromDTO(objDTO);
         obj = service.insert(obj);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
-        return ResponseEntity.created(uri).body(new UserDTO(obj));
+        return ResponseEntity.ok().body(new UserDTO(obj));
     }
 
     @Operation(summary = "Deleta um usuário pelo seu ID.")
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Atualiza um usuário existente.")
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDTO> update(@PathVariable Integer id, @RequestBody UserDTO objDTO) {
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @RequestBody UserDTO objDTO) {
         User obj = service.fromDTO(objDTO);
         obj = service.update(id, obj);
         return ResponseEntity.ok().body(new UserDTO(obj));

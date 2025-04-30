@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.apilivros.Domain.Profile;
 
-public interface ProfileRepository extends JpaRepository<Profile, Integer>{
+public interface ProfileRepository extends JpaRepository<Profile, Long>{
 
     @Query("SELECT u FROM User u WHERE u.username = :username")
     Profile findByUsername(@Param("username") String username);

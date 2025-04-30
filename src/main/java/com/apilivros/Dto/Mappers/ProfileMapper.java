@@ -34,7 +34,10 @@ public class ProfileMapper {
         profile.setWishList(dto.getWishList().stream()
             .map(BookMapper::fromDTO)
             .collect(Collectors.toList()));
-
+        profile.setReviews(dto.getReviews()
+            .stream()
+            .map(ReviewMapper::fromDTO)
+            .collect(Collectors.toList()));
         return profile;
     }
 
@@ -45,14 +48,16 @@ public class ProfileMapper {
         dto.setUsername(profile.getUsername());
         dto.setBiography(profile.getBiography());
         dto.setUrlIcon(profile.getUrlIcon());
-
         dto.setFollowers(followers);
         dto.setFollowing(following);
+
+        dto.setReviews(profile.getReviews().stream()
+        .map(ReviewMapper::convertToDTO)
+        .collect(Collectors.toList()));
 
         dto.setFavoriteBooks(profile.getFavoriteBooks().stream()
             .map(BookMapper::convertBookToDTO)
             .collect(Collectors.toList()));
-
         dto.setWishList(profile.getWishList().stream()
             .map(BookMapper::convertBookToDTO)
             .collect(Collectors.toList()));

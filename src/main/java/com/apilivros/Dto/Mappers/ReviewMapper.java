@@ -10,7 +10,7 @@ import com.apilivros.Dto.ReviewDTO;
 public class ReviewMapper {
     public static Review fromDTO(ReviewDTO dto) {
         Review review = new Review();
-        review.setId(dto.getBookId(), dto.getUserId());
+        review.setId(dto.getBookId(), dto.getProfileId());
         review.setComment(dto.getComment());
         review.setScore(dto.getScore());
         return review;

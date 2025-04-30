@@ -16,7 +16,7 @@ public class ReviewService {
     @Autowired
     private ReviewRepository repository;
 
-    public ReviewDTO findById(Integer bookId, Integer userId){
+    public ReviewDTO findById(Long bookId, Long userId){
         try{
             Review review = repository.findByBookAndUser(bookId, userId);
             return ReviewMapper.convertToDTO(review);
@@ -24,14 +24,16 @@ public class ReviewService {
             throw new ResourceNotFoundException("Um dos id's nao pode ser encontrado.");
         }
     }
-    public Review insert(Review obj){
-        return repository.save(obj);
+    public void insert(ReviewDTO obj){
+        Review review = ReviewMapper.fromDTO(obj);
+        repository.save(review);
     }
-    public void delete(Integer bookId, Integer userId){
+
+    public void delete(Long bookId, Long userId){
         repository.deleteByBookAndUser(bookId, userId);
     }
 
-    public Review editReview(Integer bookId, Integer userId, Review obj){
+    public Review editReview(Long bookId, Long userId, Review obj){
         Review review = repository.findByBookAndUser(bookId, userId);
         reviewUpdate(review, obj);
         return repository.save(review);

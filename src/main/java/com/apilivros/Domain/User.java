@@ -19,7 +19,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -64,9 +63,6 @@ public class User implements UserDetails {
     )
     private List<Roles> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
-
     public User() {}
 
     public User(Long id, String username, String fullName, String password, boolean accountNonExpired,
@@ -106,14 +102,6 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
     public List<Roles> getRoles() {
         return roles;
     }
@@ -132,7 +120,7 @@ public class User implements UserDetails {
    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getName())) // Adiciona ROLE_ na frente
+                    .map(role -> new SimpleGrantedAuthority(role.getName())) 
                     .collect(Collectors.toList());
     }
 
@@ -189,5 +177,13 @@ public class User implements UserDetails {
         } else if (!id.equals(other.id))
             return false;
         return true;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 }

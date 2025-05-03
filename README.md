@@ -1,6 +1,6 @@
-# 📚 API de Livros Avançada
+# 📚 API de Resenhas Literárias
 
-Esta é uma API RESTful para gerenciamento de livros, autores, gêneros literários, avaliações, recomendações personalizadas e muito mais. A API foi projetada para ser escalável, segura e eficiente, utilizando práticas recomendadas de desenvolvimento e CI/CD.
+Esta é uma API RESTful para gerenciamento de livros, gêneros literários, avaliações, recomendações personalizadas e muito mais. A API foi projetada para ser escalável, segura e eficiente, utilizando práticas recomendadas de desenvolvimento e CI/CD.
 
 ## 🚀 Funcionalidades
 
@@ -55,3 +55,14 @@ A aplicação utiliza diversos padrões de design para garantir um código limpo
 - **Singleton Pattern**: Para gerenciar instâncias de objetos compartilhados, como a conexão com o banco de dados.
 - **Observer Pattern**: Implementado para notificar os usuários sobre novas avaliações ou recomendações.
 - **Decorator Pattern**: Utilizado para adicionar funcionalidades extras em objetos sem alterar seu comportamento original, como filtros de busca.
+
+## ⚙️ Como Rodar o Projeto
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/Jondrewd/API-livros.git
+
+1. Rode a Aplicação:
+   ```bash
+   ./mvnw spring-boot:run
+
